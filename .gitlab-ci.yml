@@ -1,0 +1,66 @@
+variables:
+  FTP_SHOST: ftp.bluewindlab.com
+  FTP_SUSERNAME: u168445203.projects_staging
+  FTP_HOST: ftp.bluewindlab.net
+  FTP_PUSERNAME: u138608855.projects_production
+  BUILD_DIR: /home/gitlab-runner/builds/$CI_RUNNER_SHORT_TOKEN/0/bkbm-addon/kb-tab-for-woocommerce
+  DEPLOY_DIR: bkbm/wp-content/plugins/kb-tab-for-woocommerce
+stages:
+  - build
+  - staging
+  - production
+
+before_script:
+  - sudo apt-get install -y lftp && sudo apt-get install -y npm && sudo apt-get install -y curl
+
+build:
+  stage: build
+  image: node:lts
+  tags:
+    - ci
+    - devops
+  only:
+    - staging
+    - production
+  script:
+    - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+    - export NVM_DIR="$HOME/.nvm"
+    - source "$NVM_DIR/nvm.sh"
+    - nvm install 16.20.0
+    - npm -v #NPM Version.
+    - node -v #"Node Version."
+    - echo "Installing Packages."
+    - npm install
+    - echo "Building artifacts and assets."
+    - npm run build
+  artifacts:
+    paths:
+      - $BUILD_DIR/assets # Replace with the actual path to your build directory
+
+staging:
+  stage: staging
+  dependencies:
+    - build
+  only:
+    - staging
+  tags:
+    - ci
+    - devops
+  script:
+    - pwd
+    - echo "Updating plugin files.."
+    - lftp -e "set ssl:verify-certificate no; open $FTP_SHOST; user $FTP_SUSERNAME $FTP_SPASSWORD; mirror -X .* -X .*/ --reverse --verbose $BUILD_DIR /wpplugins/$DEPLOY_DIR; bye"
+
+production:
+  stage: production
+  dependencies:
+    - build
+  only:
+    - production
+  tags:
+    - ci
+    - devops
+  script:
+    - pwd
+    - echo "Updating plugin files.."
+    - lftp -e "set ssl:verify-certificate no; open $FTP_HOST; user $FTP_PUSERNAME $FTP_PPASSWORD; mirror -X .* -X .*/ --reverse --verbose $BUILD_DIR /wpplugin/$DEPLOY_DIR; bye"
