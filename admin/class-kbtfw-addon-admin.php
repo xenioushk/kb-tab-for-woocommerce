@@ -1,9 +1,13 @@
 <?php
 
+use \BwlKbManager\Api\CmbMetaBoxApi;
+
 class BKB_kbtfw_Admin
 {
 
     protected static $instance = null;
+
+    public $plugin_slug;
 
     protected $plugin_screen_hook_suffix = null;
 
@@ -13,7 +17,7 @@ class BKB_kbtfw_Admin
         //@Description: First we need to check if KB Plugin & WooCommerce is activated or not. If not then we display a message and return false.
         //@Since: Version 1.0.5
 
-        if (!class_exists('BWL_KB_Manager') || !class_exists('WooCommerce') || BKBKBTFW_PARENT_PLUGIN_INSTALLED_VERSION < '1.0.5') {
+        if (!class_exists('BwlKbManager\\Init') || !class_exists('WooCommerce') || BKBKBTFW_PARENT_PLUGIN_INSTALLED_VERSION < '1.0.5') {
             add_action('admin_notices', array($this, 'kbtfw_version_update_admin_notice'));
             return false;
         }
@@ -25,13 +29,9 @@ class BKB_kbtfw_Admin
         $post_types = 'product';
 
         add_action('admin_init', array($this, 'kbtfw_cmb_framework'));
-
         add_action('admin_enqueue_scripts', array($this, 'bkb_kbtfw_admin_enqueue_scripts'));
 
-        // After manage text we need to add "custom_post_type" value.
         add_filter('manage_' . $post_types . '_posts_columns', array($this, 'kbtfw_custom_column_header'));
-
-        // After manage text we need to add "custom_post_type" value.
         add_action('manage_' . $post_types . '_posts_custom_column', array($this, 'kbtfw_display_custom_column'), 10, 1);
 
 
@@ -44,24 +44,8 @@ class BKB_kbtfw_Admin
         add_action('wp_ajax_manage_wp_posts_using_bulk_edit_kbtfw', array($this, 'manage_wp_posts_using_bulk_edit_kbtfw'));
     }
 
-    /**
-     * Return an instance of this class.
-     *
-     * @since     1.0.0
-     *
-     * @return    object    A single instance of this class.
-     */
     public static function get_instance()
     {
-
-        /*
-         * @TODO :
-         *
-         * - Uncomment following lines if the admin class should only be available for super admins
-         */
-        /* if( ! is_super_admin() ) {
-          return;
-          } */
 
         // If the single instance hasn't been set, set it now.
         if (null == self::$instance) {
@@ -71,23 +55,14 @@ class BKB_kbtfw_Admin
         return self::$instance;
     }
 
-    //Version Manager:  Update Checking
-
     public function kbtfw_version_update_admin_notice()
     {
-
-
         echo '<div class="updated"><p>You need to download & install both '
             . '<b><a href="http://downloads.wordpress.org/plugin/woocommerce.zip" target="_blank">WooCommerce Plugin</a></b> && '
             . '<b><a href="https://1.envato.market/bkbm-wp" target="_blank">BWL Knowledge Base Manager Plugin</a></b> '
             . 'to use <b>KB Tab For WooCommerce - Knowledgebase Addon</b>. </p></div>';
     }
 
-    /**
-     * Register and enqueues public-facing JavaScript files.
-     *
-     * @since    1.0.0
-     */
     public function bkb_kbtfw_admin_enqueue_scripts($hook)
     {
 
@@ -107,14 +82,7 @@ class BKB_kbtfw_Admin
         }
 
         if ($current_post_type == "product") {
-
-            wp_register_script('bkb-cmb-admin-main', BWL_KB_PLUGIN_DIR . 'includes/bkb-cmb-framework/admin/js/bkb_cmb.js', array('jquery', 'jquery-ui-core', 'jquery-ui-sortable'), false, false);
-            wp_register_style('bkb-cmb-admin-style', BWL_KB_PLUGIN_DIR . 'includes/bkb-cmb-framework/admin/css/bkb_cmb.css', array(), false, 'all');
-
-            wp_enqueue_script('bkb-cmb-admin-main');
-            wp_enqueue_style('bkb-cmb-admin-style');
-
-            wp_enqueue_script($this->plugin_slug . '-admin-custom-script', plugins_url('assets/js/kbtfw-admin-scripts.js', __FILE__), array('jquery'), BKB_kbtfw::VERSION, TRUE);
+            wp_enqueue_script($this->plugin_slug . '-admin', BKBKBTFW_PLUGIN_DIR . 'assets/scripts/admin.js', ['jquery'], BKB_kbtfw::VERSION, TRUE);
         } else {
 
             return;
@@ -134,7 +102,7 @@ class BKB_kbtfw_Admin
 
         $loop = new WP_Query($args);
 
-        $kbftw_kb_post_ids = array();
+        $kbftw_kb_post_ids = [];
 
         if ($loop->have_posts()) :
 
@@ -154,7 +122,7 @@ class BKB_kbtfw_Admin
 
         wp_reset_query();
 
-        $cmb_bkb_woo_item_fields = array(
+        $custom_fields = array(
 
             'meta_box_id'           => 'cmb_bkb_woo_item_settings', // Unique id of meta box.
             'meta_box_heading'  => 'Knowledgebase Item Settings', // That text will be show in meta box head section.
@@ -190,9 +158,10 @@ class BKB_kbtfw_Admin
             )
         );
 
-
-        // new BKB_Meta_Box( $cmb_bkb_woo_item_fields );
-
+        // A new meta box will be created in KB add/edit page.
+        if (class_exists('BwlKbManager\\Init')) {
+            new CmbMetaBoxApi($custom_fields);
+        }
     }
 
     function kbtfw_custom_column_header($columns)

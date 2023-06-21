@@ -28,6 +28,7 @@ define('BKBKBTFW_ADDON_CURRENT_VERSION', '1.1.0'); // change plugin current vers
 define('BKBKBTFW_ADDON_PREFIX', 'bkb-kbtfw'); // Addon Data Prefix. It must be simmilar with $plugin slug (kb-tab-for-woocommerce\public\class-kbtfw-addon.php).
 
 define('BKBKBTFW_DIR', plugin_dir_path(__FILE__));
+define("BKBKBTFW_PLUGIN_DIR", plugins_url() . '/kb-tab-for-woocommerce/');
 
 require_once(plugin_dir_path(__FILE__) . 'public/class-kbtfw-addon.php');
 

@@ -32,25 +32,13 @@ class BKB_kbtfw
 		require_once(BKBKBTFW_DIR . 'public/shortcode/bkb-kbtfw-shortcodes.php');
 	}
 
-	/**
-	 * Return the plugin slug.
-	 *
-	 * @since    1.0.0
-	 *
-	 *@return    Plugin slug variable.
-	 */
+
 	public function get_plugin_slug()
 	{
 		return $this->plugin_slug;
 	}
 
-	/**
-	 * Return an instance of this class.
-	 *
-	 * @since     1.0.0
-	 *
-	 * @return    object    A single instance of this class.
-	 */
+
 	public static function get_instance()
 	{
 
@@ -62,16 +50,7 @@ class BKB_kbtfw
 		return self::$instance;
 	}
 
-	/**
-	 * Fired when the plugin is activated.
-	 *
-	 * @since    1.0.0
-	 *
-	 * @param    boolean    $network_wide    True if WPMU superadmin uses
-	 *                                       "Network Activate" action, false if
-	 *                                       WPMU is disabled or plugin is
-	 *                                       activated on an individual blog.
-	 */
+
 	public static function activate($network_wide)
 	{
 
@@ -97,16 +76,6 @@ class BKB_kbtfw
 		}
 	}
 
-	/**
-	 * Fired when the plugin is deactivated.
-	 *
-	 * @since    1.0.0
-	 *
-	 * @param    boolean    $network_wide    True if WPMU superadmin uses
-	 *                                       "Network Deactivate" action, false if
-	 *                                       WPMU is disabled or plugin is
-	 *                                       deactivated on an individual blog.
-	 */
 	public static function deactivate($network_wide)
 	{
 
@@ -132,13 +101,7 @@ class BKB_kbtfw
 		}
 	}
 
-	/**
-	 * Fired when a new site is activated with a WPMU environment.
-	 *
-	 * @since    1.0.0
-	 *
-	 * @param    int    $blog_id    ID of the new blog.
-	 */
+
 	public function activate_new_site($blog_id)
 	{
 
@@ -151,16 +114,6 @@ class BKB_kbtfw
 		restore_current_blog();
 	}
 
-	/**
-	 * Get all blog ids of blogs in the current network that are:
-	 * - not archived
-	 * - not spam
-	 * - not deleted
-	 *
-	 * @since    1.0.0
-	 *
-	 * @return   array|false    The blog ids, false if no matches.
-	 */
 	private static function get_blog_ids()
 	{
 
@@ -174,21 +127,12 @@ class BKB_kbtfw
 		return $wpdb->get_col($sql);
 	}
 
-	/**
-	 * Fired for each blog when the plugin is activated.
-	 *
-	 * @since    1.0.0
-	 */
 	private static function single_activate()
 	{
 		// @TODO: Define activation functionality here
 	}
 
-	/**
-	 * Fired for each blog when the plugin is deactivated.
-	 *
-	 * @since    1.0.0
-	 */
+
 	private static function single_deactivate()
 	{
 		// @TODO: Define deactivation functionality here
@@ -255,23 +199,23 @@ class BKB_kbtfw
 		}
 
 ?>
-		<script type="text/javascript">
-			var bkb_woo_theme = '<?php echo $bkb_woo_theme; ?>',
-				bkb_display_counter = '<?php echo $bkb_display_counter; ?>',
-				bkb_woo_animation = '<?php echo $bkb_woo_animation; ?>',
-				bkb_highlighter_bg = '<?php echo $bkb_highlighter_bg; ?>',
-				bkb_highlighter_text_color = '<?php echo $bkb_highlighter_text_color; ?>',
-				bkb_search_box_status = '<?php echo $bkb_search_box_status; ?>',
-				bkb_rtl_mode = '<?php echo $bkb_rtl_mode; ?>',
-				bkb_pagination_status = '<?php echo $bkb_pagination_status; ?>',
-				bkb_items_per_page = '<?php echo $bkb_items_per_page; ?>',
-				bkb_acc_search_text = '<?php _e('Search!', 'bkb-kbtfw'); ?>',
-				bkb_acc_msg_item_found = '<?php _e(' Item(s) Found !', 'bkb-kbtfw'); ?>',
-				bkb_acc_msg_no_result = '<?php _e('Nothing Found !', 'bkb-kbtfw'); ?>',
-				string_singular_page = '<?php _e('Page', 'bkb-kbtfw'); ?>',
-				string_plural_page = '<?php _e('Pages', 'bkb-kbtfw'); ?>',
-				string_total = '<?php _e('Total', 'bkb-kbtfw'); ?>';
-		</script>
+<script type="text/javascript">
+var bkb_woo_theme = '<?php echo $bkb_woo_theme; ?>',
+  bkb_display_counter = '<?php echo $bkb_display_counter; ?>',
+  bkb_woo_animation = '<?php echo $bkb_woo_animation; ?>',
+  bkb_highlighter_bg = '<?php echo $bkb_highlighter_bg; ?>',
+  bkb_highlighter_text_color = '<?php echo $bkb_highlighter_text_color; ?>',
+  bkb_search_box_status = '<?php echo $bkb_search_box_status; ?>',
+  bkb_rtl_mode = '<?php echo $bkb_rtl_mode; ?>',
+  bkb_pagination_status = '<?php echo $bkb_pagination_status; ?>',
+  bkb_items_per_page = '<?php echo $bkb_items_per_page; ?>',
+  bkb_acc_search_text = '<?php _e('Search!', 'bkb-kbtfw'); ?>',
+  bkb_acc_msg_item_found = '<?php _e(' Item(s) Found !', 'bkb-kbtfw'); ?>',
+  bkb_acc_msg_no_result = '<?php _e('Nothing Found !', 'bkb-kbtfw'); ?>',
+  string_singular_page = '<?php _e('Page', 'bkb-kbtfw'); ?>',
+  string_plural_page = '<?php _e('Pages', 'bkb-kbtfw'); ?>',
+  string_total = '<?php _e('Total', 'bkb-kbtfw'); ?>';
+</script>
 
 <?php
 
@@ -299,20 +243,19 @@ class BKB_kbtfw
 	public function bkb_kbtfw_enqueue_styles()
 	{
 
-		wp_register_style($this->plugin_slug . '-animate-plugin-styles', plugins_url('assets/styles/animate.css', __FILE__), array(), self::VERSION);
-		wp_register_style($this->plugin_slug . '-main-plugin-styles', plugins_url('assets/styles/styles.css', __FILE__), array(), self::VERSION);
+		wp_register_style($this->plugin_slug . '-animate', BKBKBTFW_PLUGIN_DIR . 'libs/animate/animate.css', [], self::VERSION);
+		wp_register_style($this->plugin_slug . '-frontend', BKBKBTFW_PLUGIN_DIR . 'assets/styles/frontend.css', [], self::VERSION);
 
 		if (is_rtl()) {
-			wp_register_style($this->plugin_slug . '-main-plugin-styles-rtl', plugins_url('assets/styles/styles-rtl.css', __FILE__), array(), self::VERSION);
+			wp_register_style($this->plugin_slug . '-frontend-rtl', BKBKBTFW_PLUGIN_DIR . 'assets/styles/frontend_rtl.css', [], self::VERSION);
 		}
-		//                    echo is_product();
 
 		// Fixed in version 1.0.6
 		if (is_product()) {
 
-			wp_enqueue_style(BKBKBTFW_ADDON_PREFIX . '-animate-plugin-styles');
-			wp_enqueue_style(BKBKBTFW_ADDON_PREFIX . '-main-plugin-styles');
-			wp_enqueue_style(BKBKBTFW_ADDON_PREFIX . '-main-plugin-styles-rtl');
+			wp_enqueue_style($this->plugin_slug . '-animate');
+			wp_enqueue_style($this->plugin_slug . '-frontend');
+			wp_enqueue_style($this->plugin_slug . '-frontend-rtl');
 		}
 	}
 
@@ -324,8 +267,8 @@ class BKB_kbtfw
 	public function bkb_kbtfw_enqueue_scripts()
 	{
 
-		wp_register_script($this->plugin_slug . '-bwlaccordion-plugin-script', plugins_url('assets/js/jquery.bwlaccordion.min.js', __FILE__), array('jquery'), self::VERSION);
-		wp_register_script($this->plugin_slug . '-custom-script', plugins_url('assets/js/kbtfw-custom-scripts.js', __FILE__), array('jquery', $this->plugin_slug . '-bwlaccordion-plugin-script'), self::VERSION);
+		wp_register_script($this->plugin_slug . '-bwlaccordion-plugin', BKBKBTFW_PLUGIN_DIR . 'libs/bwlaccordion/jquery.bwlaccordion.min.js', ['jquery'], self::VERSION);
+		wp_register_script($this->plugin_slug . '-frontend', BKBKBTFW_PLUGIN_DIR . 'assets/scripts/frontend.js', array('jquery', $this->plugin_slug . '-bwlaccordion-plugin'), self::VERSION);
 	}
 
 	public function kbtfw_add_custom_product_tab($tabs)

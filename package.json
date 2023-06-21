@@ -1,0 +1,19 @@
+{
+  "name": "kb-tab-for-woocommerce",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "wp-scripts build",
+    "start": "wp-scripts start",
+    "dev": "wp-scripts start",
+    "start:hot": "wp-scripts start --hot",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "plugin-zip": "wp-scripts plugin-zip"
+  },
+  "author": "Md Mahbub Alam Khan <hkhan.cse@gmail.com> (https://bluewindlab.net/)",
+  "license": "MIT",
+  "dependencies": {
+    "@wordpress/scripts": "24.6.0"
+  }
+}
