@@ -46,7 +46,6 @@ add_action('plugins_loaded', array('BKB_kbtfw', 'get_instance'));
  * ---------------------------------------------------------------------------- */
 
 if (is_admin()) {
-
     require_once(plugin_dir_path(__FILE__) . 'admin/class-kbtfw-addon-admin.php');
     add_action('plugins_loaded', array('BKB_kbtfw_Admin', 'get_instance'));
 }
