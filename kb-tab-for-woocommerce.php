@@ -14,11 +14,6 @@ if (!defined('WPINC')) {
     die;
 }
 
-/* ----------------------------------------------------------------------------*
- * Public-Facing Functionality
- * ---------------------------------------------------------------------------- */
-
-//include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
 define('BKBKBTFW_PARENT_PLUGIN_INSTALLED_VERSION', get_option('bwl_kb_plugin_version'));
 define('BKBKBTFW_ADDON_PARENT_PLUGIN_TITLE', '<b>BWL Knowledge Base Manager Plugin</b> ');
@@ -32,10 +27,6 @@ define("BKBKBTFW_PLUGIN_DIR", plugins_url() . '/kb-tab-for-woocommerce/');
 
 require_once(plugin_dir_path(__FILE__) . 'public/class-kbtfw-addon.php');
 
-/*
- * Register hooks that are fired when the plugin is activated or deactivated.
- * When the plugin is deleted, the uninstall.php file is loaded.
- */
 register_activation_hook(__FILE__, array('BKB_kbtfw', 'activate'));
 register_deactivation_hook(__FILE__, array('BKB_kbtfw', 'deactivate'));
 
