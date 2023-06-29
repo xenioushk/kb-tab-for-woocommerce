@@ -1,34 +1,36 @@
 <?php
 
+use \BwlKbManager\Base\BaseController;
+
 add_shortcode('bkb_woo_tab', 'bkb_woo_tab');
 
 function bkb_woo_tab($atts)
 {
 
-    $id_prefix = wp_rand();
+    $baseController = new BaseController();
 
-    extract(shortcode_atts(array(
-        'post_type'     => 'bwl_kb',
+    extract(shortcode_atts([
+        'post_type'     => $baseController->plugin_post_type,
         'post_ids'         => '',
         'orderby'         => 'post__in',
         'order'            => 'ASC',
         'limit'              => -1,
         'suppress_filters' => 0
 
-    ), $atts));
+    ], $atts));
 
     $output = "";
 
-    global $bkb_data;
+    $bkb_data = $baseController->bkb_data;
 
-    $args = array(
+    $args = [
         'post_status'       => 'publish',
         'post__in'         => explode(',', $post_ids),
         'post_type'         => $post_type,
         'orderby'             => $orderby,
         'order'                => $order,
         'posts_per_page' => $limit
-    );
+    ];
 
     // We are going to set a filter in here for Restriction Addon.
     $args = apply_filters('bkb_rkb_query_filter', $args);
@@ -40,7 +42,6 @@ function bkb_woo_tab($atts)
         // Enqueue Script
         // @Since: 1.0.4
 
-        wp_enqueue_script(BKBKBTFW_ADDON_PREFIX . '-bwlaccordion-plugin');
         wp_enqueue_script(BKBKBTFW_ADDON_PREFIX . '-frontend');
 
         $output .= '<div class="bwl_acc_container" id="bkb_woo_accordion">';

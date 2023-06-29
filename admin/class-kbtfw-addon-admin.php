@@ -1,14 +1,15 @@
 <?php
 
+use \BwlKbManager\Base\BaseController;
 use \BwlKbManager\Api\CmbMetaBoxApi;
+
 
 class BKB_kbtfw_Admin
 {
 
     protected static $instance = null;
-
     public $plugin_slug;
-
+    public $baseController; // parent controller of the addon.
     protected $plugin_screen_hook_suffix = null;
 
     private function __construct()
@@ -26,6 +27,7 @@ class BKB_kbtfw_Admin
 
         $plugin = BKB_kbtfw::get_instance();
         $this->plugin_slug = $plugin->get_plugin_slug();
+        $this->baseController = new BaseController();
         $post_types = 'product';
 
         add_action('admin_init', array($this, 'kbtfw_cmb_framework'));
@@ -94,7 +96,7 @@ class BKB_kbtfw_Admin
 
         $args = array(
             'post_status' => 'publish',
-            'post_type' => 'bwl_kb',
+            'post_type' => $this->baseController->plugin_post_type,
             'orderby' => 'title',
             'order' => 'ASC',
             'posts_per_page' => -1

@@ -1,11 +1,14 @@
 <?php
 
+use \BwlKbManager\Base\BaseController;
+
 class BKB_kbtfw
 {
 
 	const VERSION = BKBKBTFW_ADDON_CURRENT_VERSION;
 	protected $plugin_slug = 'bkb-kbtfw';
 	protected static $instance = null;
+	public $baseController; // parent controller of the addon.
 
 	private function __construct()
 	{
@@ -14,6 +17,7 @@ class BKB_kbtfw
 
 			add_action('init', array($this, 'load_plugin_textdomain'));
 
+			$this->baseController = new BaseController();
 
 			$this->include_files();
 
@@ -141,7 +145,8 @@ class BKB_kbtfw
 	public function bkb_kbtfw_custom_scripts()
 	{
 
-		global $bkb_data;
+		$bkb_data = $this->baseController->bkb_data;
+
 
 		$bkb_display_counter =  1;
 		$bkb_woo_theme =  "default";
@@ -199,23 +204,23 @@ class BKB_kbtfw
 		}
 
 ?>
-<script type="text/javascript">
-var bkb_woo_theme = '<?php echo $bkb_woo_theme; ?>',
-  bkb_display_counter = '<?php echo $bkb_display_counter; ?>',
-  bkb_woo_animation = '<?php echo $bkb_woo_animation; ?>',
-  bkb_highlighter_bg = '<?php echo $bkb_highlighter_bg; ?>',
-  bkb_highlighter_text_color = '<?php echo $bkb_highlighter_text_color; ?>',
-  bkb_search_box_status = '<?php echo $bkb_search_box_status; ?>',
-  bkb_rtl_mode = '<?php echo $bkb_rtl_mode; ?>',
-  bkb_pagination_status = '<?php echo $bkb_pagination_status; ?>',
-  bkb_items_per_page = '<?php echo $bkb_items_per_page; ?>',
-  bkb_acc_search_text = '<?php _e('Search!', 'bkb-kbtfw'); ?>',
-  bkb_acc_msg_item_found = '<?php _e(' Item(s) Found !', 'bkb-kbtfw'); ?>',
-  bkb_acc_msg_no_result = '<?php _e('Nothing Found !', 'bkb-kbtfw'); ?>',
-  string_singular_page = '<?php _e('Page', 'bkb-kbtfw'); ?>',
-  string_plural_page = '<?php _e('Pages', 'bkb-kbtfw'); ?>',
-  string_total = '<?php _e('Total', 'bkb-kbtfw'); ?>';
-</script>
+		<script type="text/javascript">
+			var bkb_woo_theme = '<?php echo $bkb_woo_theme; ?>',
+				bkb_display_counter = '<?php echo $bkb_display_counter; ?>',
+				bkb_woo_animation = '<?php echo $bkb_woo_animation; ?>',
+				bkb_highlighter_bg = '<?php echo $bkb_highlighter_bg; ?>',
+				bkb_highlighter_text_color = '<?php echo $bkb_highlighter_text_color; ?>',
+				bkb_search_box_status = '<?php echo $bkb_search_box_status; ?>',
+				bkb_rtl_mode = '<?php echo $bkb_rtl_mode; ?>',
+				bkb_pagination_status = '<?php echo $bkb_pagination_status; ?>',
+				bkb_items_per_page = '<?php echo $bkb_items_per_page; ?>',
+				bkb_acc_search_text = '<?php _e('Search!', 'bkb-kbtfw'); ?>',
+				bkb_acc_msg_item_found = '<?php _e(' Item(s) Found !', 'bkb-kbtfw'); ?>',
+				bkb_acc_msg_no_result = '<?php _e('Nothing Found !', 'bkb-kbtfw'); ?>',
+				string_singular_page = '<?php _e('Page', 'bkb-kbtfw'); ?>',
+				string_plural_page = '<?php _e('Pages', 'bkb-kbtfw'); ?>',
+				string_total = '<?php _e('Total', 'bkb-kbtfw'); ?>';
+		</script>
 
 <?php
 
@@ -242,20 +247,13 @@ var bkb_woo_theme = '<?php echo $bkb_woo_theme; ?>',
 	 */
 	public function bkb_kbtfw_enqueue_styles()
 	{
+		if (is_singular("product")) {
+			wp_enqueue_style($this->plugin_slug . '-animate', BKBKBTFW_PLUGIN_DIR . 'libs/animate/animate.css', [], self::VERSION);
+			wp_enqueue_style($this->plugin_slug . '-frontend', BKBKBTFW_PLUGIN_DIR . 'assets/styles/frontend.css', [], self::VERSION);
 
-		wp_register_style($this->plugin_slug . '-animate', BKBKBTFW_PLUGIN_DIR . 'libs/animate/animate.css', [], self::VERSION);
-		wp_register_style($this->plugin_slug . '-frontend', BKBKBTFW_PLUGIN_DIR . 'assets/styles/frontend.css', [], self::VERSION);
-
-		if (is_rtl()) {
-			wp_register_style($this->plugin_slug . '-frontend-rtl', BKBKBTFW_PLUGIN_DIR . 'assets/styles/frontend_rtl.css', [], self::VERSION);
-		}
-
-		// Fixed in version 1.0.6
-		if (is_product()) {
-
-			wp_enqueue_style($this->plugin_slug . '-animate');
-			wp_enqueue_style($this->plugin_slug . '-frontend');
-			wp_enqueue_style($this->plugin_slug . '-frontend-rtl');
+			if (is_rtl()) {
+				wp_enqueue_style($this->plugin_slug . '-frontend-rtl', BKBKBTFW_PLUGIN_DIR . 'assets/styles/frontend_rtl.css', [], self::VERSION);
+			}
 		}
 	}
 
@@ -266,9 +264,7 @@ var bkb_woo_theme = '<?php echo $bkb_woo_theme; ?>',
 	 */
 	public function bkb_kbtfw_enqueue_scripts()
 	{
-
-		wp_register_script($this->plugin_slug . '-bwlaccordion-plugin', BKBKBTFW_PLUGIN_DIR . 'libs/bwlaccordion/jquery.bwlaccordion.min.js', ['jquery'], self::VERSION);
-		wp_register_script($this->plugin_slug . '-frontend', BKBKBTFW_PLUGIN_DIR . 'assets/scripts/frontend.js', array('jquery', $this->plugin_slug . '-bwlaccordion-plugin'), self::VERSION);
+		wp_register_script($this->plugin_slug . '-frontend', BKBKBTFW_PLUGIN_DIR . 'assets/scripts/frontend.js', ['jquery'], self::VERSION);
 	}
 
 	public function kbtfw_add_custom_product_tab($tabs)
@@ -277,10 +273,7 @@ var bkb_woo_theme = '<?php echo $bkb_woo_theme; ?>',
 		global $product;
 
 		// Get Data From Option Panel Settings.
-		global $bkb_data;
-
-		// Initialize Values.
-
+		$bkb_data = $this->baseController->bkb_data;
 		$bkb_auto_hide_tab = 1; // Enable Auto hide
 		$bkb_tab_title = __("Knowledge Base ", 'bkb-kbtfw'); // Set the title of Knowledgebase Tab.
 
@@ -288,10 +281,7 @@ var bkb_woo_theme = '<?php echo $bkb_woo_theme; ?>',
 			$bkb_tab_title = $bkb_data['bkb_woo_tab_title']; // Introduced in version 1.0.1
 		}
 
-		$bkb_woo_tab_position = 100; // Set faq tab in last position.
-
-		/*------------------------------ Start Tab Auto Hide Section ---------------------------------*/
-		//                    echo $bkb_data['bkb_auto_hide_tab'];
+		$bkb_woo_tab_position = 100; // Set faq tab to the last position.
 
 		if (isset($bkb_data['bkb_auto_hide_tab']) && $bkb_data['bkb_auto_hide_tab'] == "") {
 			$bkb_auto_hide_tab = 0;
@@ -306,13 +296,6 @@ var bkb_woo_theme = '<?php echo $bkb_woo_theme; ?>',
 				return $tabs;
 			}
 		}
-
-		/*------------------------------ End Tab Auto Hide Section ---------------------------------*/
-
-
-		// Set custom position for knowledgebase tab. 
-		// Tips: Higher values like 100, 200, 300 will set Knowledgebse tab bottom of the tab container. 
-		// Set lower value like 1 to set Knowledgebse tab at the first position.
 
 		if (isset($bkb_data['bkb_woo_tab_position']) && is_numeric($bkb_data['bkb_woo_tab_position'])) {
 
@@ -337,19 +320,19 @@ var bkb_woo_theme = '<?php echo $bkb_woo_theme; ?>',
 			return $tabs;
 		}
 
-		//                    $kbtfw_total_kbss_string = '<span class="bkb_woo_counter"></span>';
-		$kbtfw_total_kbss_string = '';
+
+		$kbtfw_total_kbss_string = "";
 
 		$get_kbftw_kb_post_ids = apply_filters('filter_kbtfwc_content_data', get_post_meta($product->get_id(), 'kbftw_kb_post_ids'));
 
 		$kbftw_kb_post_ids =  implode(',',  $get_kbftw_kb_post_ids);
 
-		$tabs['kbtfw_tab'] = array(
+		$tabs['kbtfw_tab'] = [
 			'title' => $bkb_tab_title . $kbtfw_total_kbss_string,
 			'priority' => $bkb_woo_tab_position, // Always display at the end of tab :)
-			'callback' => array($this, 'kbtfw_custom_tab_panel_content'),
+			'callback' => [$this, 'kbtfw_custom_tab_panel_content'],
 			'content' => do_shortcode('[bkb_woo_tab post_ids="' . $kbftw_kb_post_ids . '"/]') // custom field
-		);
+		];
 
 		return $tabs;
 	}

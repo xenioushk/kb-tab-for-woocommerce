@@ -14,7 +14,6 @@ if (!defined('WPINC')) {
     die;
 }
 
-
 define('BKBKBTFW_PARENT_PLUGIN_INSTALLED_VERSION', get_option('bwl_kb_plugin_version'));
 define('BKBKBTFW_ADDON_PARENT_PLUGIN_TITLE', '<b>BWL Knowledge Base Manager Plugin</b> ');
 define('BKBKBTFW_ADDON_TITLE', '<b>KB Tab For WooCommerce</b>');
