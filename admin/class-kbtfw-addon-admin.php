@@ -30,6 +30,8 @@ class BKB_kbtfw_Admin
         $this->baseController = new BaseController();
         $post_types = 'product';
 
+        $this->includedFiles();
+
         add_action('admin_init', array($this, 'kbtfw_cmb_framework'));
         add_action('admin_enqueue_scripts', array($this, 'bkb_kbtfw_admin_enqueue_scripts'));
 
@@ -55,6 +57,13 @@ class BKB_kbtfw_Admin
         }
 
         return self::$instance;
+    }
+
+    public function includedFiles()
+    {
+        require_once(BKBKBTFW_DIR . 'includes/autoupdater/WpAutoUpdater.php');
+        require_once(BKBKBTFW_DIR . 'includes/autoupdater/installer.php');
+        require_once(BKBKBTFW_DIR . 'includes/autoupdater/updater.php');
     }
 
     public function kbtfw_version_update_admin_notice()
@@ -85,6 +94,15 @@ class BKB_kbtfw_Admin
 
         if ($current_post_type == "product") {
             wp_enqueue_script($this->plugin_slug . '-admin', BKBKBTFW_PLUGIN_DIR . 'assets/scripts/admin.js', ['jquery'], BKB_kbtfw::VERSION, TRUE);
+
+            wp_localize_script(
+                $this->plugin_slug . '-admin',
+                'BkbmKbtfwAdminData',
+                [
+                    'product_id' => 11342283,
+                    'installation' => get_option('bkbm_kbtfw_installation')
+                ]
+            );
         } else {
 
             return;

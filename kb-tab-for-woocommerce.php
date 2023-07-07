@@ -20,6 +20,7 @@ define('BKBKBTFW_ADDON_TITLE', '<b>KB Tab For WooCommerce</b>');
 define('BKBKBTFW_PARENT_PLUGIN_REQUIRED_VERSION', '1.4.2'); // change plugin required version in here.
 define('BKBKBTFW_ADDON_CURRENT_VERSION', '1.1.1'); // change plugin current version in here.
 define('BKBKBTFW_ADDON_PREFIX', 'bkb-kbtfw'); // Addon Data Prefix. It must be simmilar with $plugin slug (kb-tab-for-woocommerce\public\class-kbtfw-addon.php).
+define('BKBKBTFW_ADDON_UPDATER_SLUG', plugin_basename(__FILE__)); // change plugin current version in here.
 
 define('BKBKBTFW_DIR', plugin_dir_path(__FILE__));
 define("BKBKBTFW_PLUGIN_DIR", plugins_url() . '/kb-tab-for-woocommerce/');
