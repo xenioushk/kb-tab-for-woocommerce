@@ -2,12 +2,12 @@
 
 /**
  * Plugin Name:    KB Tab For WooCommerce - Knowledgebase Addon
- * Plugin URI:       http://bit.ly/bkbm-woo
+ * Plugin URI:       https://1.envato.market/bkbm-wp
  * Description:      KB tab for woocommerce Addon allows you to convert you're knowledge base posts in to WooCommerce product Knowledgebase item with in a minute. You can add unlimited number of knowledge base post as product knowledgebase items and using drag drop feature sort them according to you're choice.
  * Version:           1.1.1
- * Author:             Md Mahbub Alam Khan
- * Author URI:       http://codecanyon.net/user/xenioushk?ref=xenioushk
- * Text Domain:     bkb-kbtfw
+ * Author:            Mahbub Alam Khan
+ * Author URI:      https://1.envato.market/bkbm-wp
+ * Text Domain:    bkb-kbtfw
  */
 // If this file is called directly, abort.
 if (!defined('WPINC')) {
@@ -31,10 +31,6 @@ register_activation_hook(__FILE__, array('BKB_kbtfw', 'activate'));
 register_deactivation_hook(__FILE__, array('BKB_kbtfw', 'deactivate'));
 
 add_action('plugins_loaded', array('BKB_kbtfw', 'get_instance'));
-
-/* ----------------------------------------------------------------------------*
- * Dashboard and Administrative Functionality
- * ---------------------------------------------------------------------------- */
 
 if (is_admin()) {
     require_once(plugin_dir_path(__FILE__) . 'admin/class-kbtfw-addon-admin.php');
