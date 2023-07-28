@@ -100,7 +100,7 @@ class BKB_kbtfw_Admin
                 'BkbmKbtfwAdminData',
                 [
                     'product_id' => BKBKBTFW_ADDON_CC_ID,
-                    'installation' => get_option('bkbm_kbtfw_installation')
+                    'installation' => get_option(BKBKBTFW_ADDON_INSTALLATION_TAG)
                 ]
             );
         } else {

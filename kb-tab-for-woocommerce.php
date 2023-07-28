@@ -23,6 +23,8 @@ define('BKBKBTFW_ADDON_CURRENT_VERSION', '1.1.2'); // change plugin current vers
 define('BKBKBTFW_ADDON_PREFIX', 'bkb-kbtfw'); // Addon Data Prefix. It must be simmilar with $plugin slug (kb-tab-for-woocommerce\public\class-kbtfw-addon.php).
 define('BKBKBTFW_ADDON_UPDATER_SLUG', plugin_basename(__FILE__)); // change plugin current version in here.
 
+define('BKBKBTFW_ADDON_INSTALLATION_TAG', 'bkbm_kbtfw_installation_' . str_replace('.', '_', BKBKBTFW_ADDON_CURRENT_VERSION));
+
 define("BKBKBTFW_ADDON_CC_ID", "11342283"); // Plugin codecanyon Id.
 
 define('BKBKBTFW_DIR', plugin_dir_path(__FILE__));

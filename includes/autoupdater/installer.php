@@ -22,7 +22,8 @@ function bkbmKbtfwAddInstallationData()
   $site_url = get_site_url();
   $product_id = BKBKBTFW_ADDON_CC_ID; // change the id
   $ip = $_SERVER['REMOTE_ADDR'];
-  $requestUrl = $apiURL . "wp-json/bwlapi/v1/installation/count?product_id=$product_id&site=$site_url&referer=$ip";
+  $ver = BKBKBTFW_ADDON_CURRENT_VERSION;
+  $requestUrl = $apiURL . "wp-json/bwlapi/v1/installation/count?product_id=$product_id&site=$site_url&referer=$ip&ver=$ver";
 
   $output = wp_remote_get($requestUrl);
   // New Code.
@@ -38,9 +39,9 @@ function bkbmKbtfwAddInstallationData()
 
     $output_decode = json_decode($data, true);
 
-    if (isset($output_decode['status']) && $output_decode['status'] == 1) {
+    if (isset($output_decode['status']) && $output_decode['status'] != 0) {
 
-      update_option('bkbm_kbtfw_installation', '1'); // change the tag
+      update_option(BKBKBTFW_ADDON_INSTALLATION_TAG, '1'); // change the tag
 
       $data = [
         'status' => $output_decode['status'],
