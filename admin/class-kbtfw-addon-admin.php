@@ -99,7 +99,7 @@ class BKB_kbtfw_Admin
                 $this->plugin_slug . '-admin',
                 'BkbmKbtfwAdminData',
                 [
-                    'product_id' => 11342283,
+                    'product_id' => BKBKBTFW_ADDON_CC_ID,
                     'installation' => get_option('bkbm_kbtfw_installation')
                 ]
             );
