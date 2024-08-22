@@ -1,6 +1,5 @@
 node_modules
 tests
-assets
 *.map
 *.hot-update.js
 *.hot-update.json

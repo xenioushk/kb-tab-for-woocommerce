@@ -1,8 +1,4 @@
 variables:
-  FTP_SHOST: ftp.bluewindlab.com
-  FTP_SUSERNAME: u168445203.projects_staging
-  FTP_HOST: ftp.bluewindlab.net
-  FTP_PUSERNAME: u138608855.projects_production
   BUILD_DIR: /home/gitlab-runner/builds/$CI_RUNNER_SHORT_TOKEN/0/bkbm-addon/kb-tab-for-woocommerce
   DEPLOY_DIR: bkbm/wp-content/plugins/kb-tab-for-woocommerce
 stages:
