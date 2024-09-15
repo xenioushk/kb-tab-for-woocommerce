@@ -1,6 +1,8 @@
 ## KB Tab For WooCommerce - Knowledgebase Addon
 
-KB tab for woocommerce Addon allows you to convert you're knowledge base posts in to WooCommerce product Knowledgebase item with in a minute. You can add unlimited number of knowledge base post as product knowledgebase items and using drag drop feature sort them according to you're choice.
+KB tab for woocommerce Addon allows you to convert you're knowledge base posts in to WooCommerce product Knowledgebase item with in a minute. You can add unlimited number of knowledge base post as product knowledgebase items and using drag drop feature sort them according to your choice.
+
+![overview of KB Tab For WooCommerce - Knowledgebase Addon](https://xenioushk.github.io/docs-plugins-addon/bkbm-addon/ktwfc/screenshot/01_bkb_ktfwc_demo.png)
 
 [Demo](https://projects.bluewindlab.net/wpplugin/bkbm/) | [Download](https://bluewindlab.net/portfolio/kb-tab-for-woocommerce-bwl-knowledge-base-manager-addon/) | [Documentation](https://xenioushk.github.io/docs-plugins-addon/bkbm-addon/ktwfc/index.html)
 
