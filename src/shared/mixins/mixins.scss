@@ -1,21 +1,16 @@
-@mixin round($radius: 5px) {
-  -webkit-border-radius: $radius;
-  -moz-border-radius: $radius;
-  border-radius: $radius;
-  -webkit-background-clip: padding-box;
-  -moz-background-clip: padding;
+// Screensized variables
+@import "screen_size.scss";
+
+@mixin round($radius: 5px, $override: false) {
+  border-radius: $radius if($override, !important, null);
   background-clip: padding-box;
 }
 
 @mixin drop-shadow($x: 0, $y: 0, $blur: 5px, $spread: 0, $alpha: 0.16) {
-  -webkit-box-shadow: $x $y $blur $spread rgba(0, 0, 0, $alpha);
-  -moz-box-shadow: $x $y $blur $spread rgba(0, 0, 0, $alpha);
   box-shadow: $x $y $blur $spread rgba(54, 114, 216, $alpha);
 }
 
 @mixin inner-shadow($x: 0, $y: 0, $blur: 5px, $spread: 0, $alpha: 0.2) {
-  -webkit-box-shadow: inset $x $y $blur $spread rgba(0, 0, 0, $alpha);
-  -moz-box-shadow: inset $x $y $blur $spread rgba(0, 0, 0, $alpha);
   box-shadow: inset $x $y $blur $spread rgba(0, 0, 0, $alpha);
 }
 
@@ -23,19 +18,13 @@
   background-color: $from;
   background-image: -webkit-gradient(linear, left top, left bottom, from($from), to($to));
   background-image: -webkit-linear-gradient(top, $from, $to);
-  background-image: -moz-linear-gradient(top, $from, $to);
-  background-image: -o-linear-gradient(top, $from, $to);
   background-image: linear-gradient(to bottom, $from, $to);
 }
 
-@mixin box-shadow($top, $left, $blur, $color, $inset: false) {
+@mixin box-shadow($top: 0px, $left: 0px, $blur: 5px, $color: rgba(0, 0, 0, 0.2), $inset: false) {
   @if $inset {
-    -webkit-box-shadow: inset $top $left $blur $color;
-    -moz-box-shadow: inset $top $left $blur $color;
     box-shadow: inset $top $left $blur $color;
   } @else {
-    -webkit-box-shadow: $top $left $blur $color;
-    -moz-box-shadow: $top $left $blur $color;
     box-shadow: $top $left $blur $color;
   }
 }
@@ -48,10 +37,7 @@
   }
 }
 
-@mixin transition($property: color, $duration: 0.2s) {
-  -webkit-transition: $property $duration ease-in-out;
-  -moz-transition: $property $duration ease-in-out;
-  -o-transition: $property $duration ease-in-out;
+@mixin transition($property: all, $duration: 0.3s) {
   transition: $property $duration ease-in-out;
 }
 
@@ -76,4 +62,64 @@
   justify-content: flex-start;
   align-items: center;
   direction: $direction;
+}
+
+@mixin sm-screen {
+  @media (max-width: $sm-screen-size) {
+    @content;
+  }
+}
+
+@mixin md-screen {
+  @media (max-width: $md-screen-size) {
+    @content;
+  }
+}
+
+@mixin lg-screen {
+  @media (max-width: $lg-screen-size) {
+    @content;
+  }
+}
+
+@mixin sm-single-column {
+  @include sm-screen {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@mixin md-double-columns {
+  @include md-screen {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@mixin lg-tripple-columns {
+  @include lg-screen {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@mixin tablet {
+  @media (min-width: $tablet_screen_size) {
+    @content;
+  }
+}
+
+@mixin tabletHorizontal {
+  @media (min-width: $tablet_horizontal_screen_size) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: $desktop_screen_size) {
+    @content;
+  }
+}
+
+@mixin largeScreen {
+  @media (min-width: $large_screen_size) {
+    @content;
+  }
 }

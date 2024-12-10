@@ -1,1 +1,17 @@
-div.bwl_acc_container h2.acc_title_bar a:before{margin-left:6px;margin-right:6px}div.bwl_acc_container .search_icon{background-position:top 2px left 10px}div.bwl_acc_container .accordion_search_container .acc_clear_btn:after{right:-42px}
+/*!*****************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]!./src/styles/frontend_rtl.scss ***!
+  \*****************************************************************************************************************************************************************************************************************************************************/
+div.bwl_acc_container h2.acc_title_bar a::before {
+  margin-right: 6px;
+  margin-left: 6px;
+}
+
+div.bwl_acc_container .search_icon {
+  background-position: top 2px left 10px;
+}
+
+div.bwl_acc_container .accordion_search_container .acc_clear_btn::after {
+  right: -42px;
+}
+
+/*# sourceMappingURL=frontend_rtl.css.map*/

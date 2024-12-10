@@ -1,1 +1,983 @@
-(()=>{var t={239:()=>{var t,i;"function"!=typeof Object.create&&(Object.create=function(t){function i(){}return i.prototype=t,new i}),t=jQuery,window,document,i={init:function(i,e){var a=this;a.elem=e,a.$elem=t(e),this.options=t.extend({},t.fn.bwlAccordion.config,i),a.options.pagination&&a.$elem.append('<input type="hidden" id="current_page"><input type="hidden" id="show_per_page"><div id="acc_page_navigation" class="acc_page_navigation" data-paginate="" data-pag_limit=""></div>');var n=a.get_animation_class();this.options.inAnimation=n[0],1==this.options.rtl&&a.addRTLSupport(),a.displayAccordion(),a.displaySearchBox();var s=a.$elem.find(".acc_title_bar"),l=a.$elem.find(".accordion_search_input_box");1==this.options.ctrl_btn&&(a.$elem.find("section:first").before('<p class="acc-ctrl-btn"><span class="acc-expand-all"><i class="fa fa-plus"></i></span><span class="acc-collapsible-all"><i class="fa fa-minus"></i></span></p>'),this.options.acc_ctrl_btn=a.$elem.find(".acc-ctrl-btn")),""!=this.options.nav_box&&s.addClass("nav_"+this.options.nav_box),""!=this.options.nav_icon&&s.addClass("nav_icon_"+this.options.nav_icon),l.each((function(){t(this).val("").attr("placeholder",a.options.placeholder),1==a.options.rtl?t(this).after('<span class="rtl_clear_btn"></span>'):t(this).after('<span class="acc_clear_btn"></span>')}));var o=a.getThemeClasses(a.options.theme);if(a.searchEvent(o,n),s.on("click",(function(){return a.toggleEvent(t(this),o,n,a.$elem),!1})),(1==a.options.rtl?a.$elem.find(".rtl_clear_btn"):a.$elem.find(".acc_clear_btn")).on("click",(function(){t(this).removeAttr("style");var i=a.$elem;i.find(".accordion_search_input_box").val("").attr("placeholder",a.options.placeholder),a.removeHighlightEvent(),a.resetAccordion(i,o,n)})),1==this.options.ctrl_btn){var c=a.$elem.find(".acc-expand-all"),r=a.$elem.find(".acc-collapsible-all");c.on("click",(function(){a.$elem.find("section").each((function(){t(this).find(".acc_title_bar").addClass(o.title_active_class).slideDown(),t(this).find(".acc_container").slideDown((function(){t(this).find(".block").css({opacity:1}).addClass(n[0])}))}))})),r.on("click",(function(){a.$elem.find("section").each((function(){t(this).find(".acc_title_bar").removeClass(o.title_active_class).slideDown(),t(this).find(".acc_container").slideUp((function(){t(this).find(".block").css({opacity:0}).removeClass(n[0])}))}))}))}},addRTLSupport:function(){var t=this;t.$elem.addClass("bwl_acc_container_rtl_support"),t.$elem.find(".acc_title_bar").addClass("rtl-title-bar"),t.$elem.find(".accordion_search_input_box").addClass("search_icon_rtl")},displaySearchBox:function(){var t=this;0==t.options.search?t.$elem.find(".accordion_search_container").remove():t.$elem.find(".accordion_search_container").css({display:"block"})},displayAccordion:function(){var t=this,i=t.getThemeClasses(t.options.theme);if(t.$elem.find(".acc_title_bar").addClass(i.title_bar_class),t.$elem.find(".acc_container").slideUp(100),t.$elem.find(".acc_container").find(".block").css({opacity:1}).addClass(t.options.inAnimation),0==t.options.closeall&&t.$elem.find(".acc_title_bar:first").addClass(i.title_active_class).next().slideDown(700),t.options.pagination&&t.$elem.find(".acc_page_navigation").addClass(i.nav_class),t.options.pagination){var e=t.$elem.find(".acc_container").size(),a=t.$elem,n=t.options.limit,s=e;a.find(".acc_page_navigation").attr("data-paginate",t.options.pagination),a.find(".acc_page_navigation").attr("data-pag_limit",t.options.limit),t.baf_get_pagination_html(a,n,s)}},baf_get_pagination_html:function(i,e,a,n){var s=this,l=i.find(".acc_page_navigation").data("paginate");if(void 0!==n&&1==n){if(1==l){var o=i.find("section.filter"),c=o.size();o.slice(0,e),o.slice(e,c).css("display","none")}i.find("input[type=text]").removeClass("search_load").addClass("search_icon")}else i.find("section").css("display","none"),i.find("section").slice(0,e).css("display","block"),a=i.find("section").size();var r=Math.ceil(a/e);i.find("#current_page").val(0),i.find("#show_per_page").val(e);for(var _='<a class="previous_link" href="#"><i class="fa fa-angle-left"></i></a>',d=0,h=[],p="",f="Page";r>d;)h[d]=d,r>10&&d>=10&&(p=" baf_dn"),_+='<a class="page_link'+p+'" href="#" longdesc="'+d+'">'+(d+1)+"</a>",d++;r>1&&(f="Pages"),_+='<a class="next_link" href="#"><i class="fa fa-angle-right"></i></a><br /><span class="total_pages">Total '+r+" "+f+"</span>",i.find("#acc_page_navigation").html("").html(_),0==l&&i.find("#acc_page_navigation").remove(),0==h.length?i.find("#acc_page_navigation").css("display","none"):i.find("#acc_page_navigation").css("display","block"),i.find("#acc_page_navigation .page_link:first").addClass("active_page"),i.find(".next_link").on("click",(function(){var t=parseInt(i.find("#current_page").val())+1,e=i.find(".active_page").next(".page_link");if(1==e.length){if(e.hasClass("baf_dn")){e.removeClass("baf_dn");var a=parseInt(i.find("a.page_link:visible").length)-10;i.find("a.page_link:visible").slice(0,a).addClass("baf_dn")}s.baf_go_to_page(i,t)}return!1})),i.find(".previous_link").on("click",(function(){var t=parseInt(i.find("#current_page").val())-1,e=i.find(".active_page").prev(".page_link"),a=i.find("div.bwl-faq-container").size(),n=parseInt(i.find("a.page_link:visible:first").attr("longdesc"))-1,l=i.find("a.page_link:visible:last").attr("longdesc");return 1==e.length&&(n>-1&&l<a&&(i.find("a.page_link").addClass("baf_dn"),i.find("a.page_link").slice(n,l).removeClass("baf_dn")),s.baf_go_to_page(i,t)),!1})),i.find(".page_link").on("click",(function(){var e=t(this).attr("longdesc");return s.baf_go_to_page(i,e),!1}))},baf_go_to_page:function(t,i){var e=0;t.find("input[type=text]").length&&t.find("input[type=text]").val().length>1&&(e=1);var a=parseInt(t.find("#show_per_page").val()),n=i*a,s=n+a;1==e?t.find("section.filter").css("display","none").slice(n,s).css("display","block"):t.find("section").css("display","none").slice(n,s).css("display","block"),t.find(".page_link[longdesc="+i+"]").addClass("active_page").siblings(".active_page").removeClass("active_page"),t.find("#current_page").val(i)},getThemeClasses:function(t){var i="",e="";return""!=this.options.nav_icon&&(e=" nav_icon_"+this.options.nav_icon+"_active"),1==this.options.rtl&&(i+=" rtl-title-active"),"theme-red"==t?{title_bar_class:"theme-red-title-bar",title_active_class:"theme-red-title-active"+e+i,nav_class:"red_theme_nav"}:"theme-green"==t?{title_bar_class:"theme-green-title-bar",title_active_class:"theme-green-title-active"+e+i,nav_class:"green_theme_nav"}:"theme-blue"==t?{title_bar_class:"theme-blue-title-bar",title_active_class:"theme-blue-title-active"+e+i,nav_class:"blue_theme_nav"}:"theme-orange"==t?{title_bar_class:"theme-orange-title-bar",title_active_class:"theme-orange-title-active"+e+i,nav_class:"orange_theme_nav"}:"theme-yellow"==t?{title_bar_class:"theme-yellow-title-bar",title_active_class:"theme-yellow-title-active"+e+i,nav_class:"yellow_theme_nav"}:{title_bar_class:"default-title-bar",title_active_class:"default-title-bar-active"+e+i,nav_class:"default_theme_nav"}},get_animation_class:function(){var t=this,i="animated ";return"flash"==t.options.animation?i+="flash":"shake"==t.options.animation?i+="shake":"tada"==t.options.animation?i+="tada":"swing"==t.options.animation?i+="swing":"wobble"==t.options.animation?i+="wobble":"pulse"==t.options.animation?i+="pulse":"flipx"==t.options.animation?i+="flipInX":"faderight"==t.options.animation?i+="fadeInLeft":"fadeleft"==t.options.animation?i+="fadeInRight":"slide"==t.options.animation?i+="slideInRight":"slideup"==t.options.animation?i+="slideInDown":"bounce"==t.options.animation?i+="bounceIn":"lightspeed"==t.options.animation?i+="lightSpeedIn":"roll"==t.options.animation?i+="rollIn":"rotate"==t.options.animation?i+="rotateIn":"fade"==t.options.animation?i+="fadeInDown":"none"==t.options.animation?i="":i+="fadeIn",[i]},toggleEvent:function(i,e,a,n){var s,l=(s=this).options.toggle;if((s=i).hasClass(e.title_active_class)&&s.toggleClass(e.title_active_class).next().slideUp((function(){t(this).find(".block").css({opacity:0}).removeClass(a[0])})),1==l){var o=n.find(".acc_container");n.find(".acc_title_bar").removeClass(e.title_active_class),o.slideUp((function(){t(this).find(".block").css({opacity:0}).removeClass(a[0])}))}s.next().is(":hidden")&&(s.removeClass(e.title_active_class).next().slideUp((function(){t(this).find(".block").css({opacity:0}).removeClass(a[0])})),s.toggleClass(e.title_active_class).next().slideDown((function(){t(this).find(".block").css({opacity:1}).addClass(a[0])})))},searchEvent:function(i,e){var a,n,s,l,o=this,c=o.$elem.find(".search_result_container"),r=o.$elem.find(".accordion_search_input_box"),_=o.$elem;l=1==o.options.rtl?_.find(".rtl_clear_btn"):_.find(".acc_clear_btn");var d="",h="";1==o.options.rtl&&(d+=" search_icon_rtl",h+=" load_rtl"),r.on("keyup",(function(){(s=t(this)).addClass("load"+h),clearTimeout(n),clearTimeout(a);var r=t.trim(s.val());0==r.length&&l.removeAttr("style"),r.length<2&&(s.removeClass("load"+h),o.$elem.find("section").removeAttr("class"),o.options.closeall?(o.$elem.find(".acc_title_bar").removeClass(i.title_active_class).slideDown(),o.$elem.find(".acc_container").slideUp((function(){t(this).find(".block").css({opacity:0}).removeClass(e[0])}))):(o.$elem.find(".acc_title_bar:first").addClass(i.title_active_class).slideDown(),o.$elem.find(".acc_container:first").slideDown((function(){t(this).find(".block").css({opacity:1}).addClass(e[0])})),o.$elem.find(".acc_title_bar:not(:first)").removeClass(i.title_active_class).slideDown(),o.$elem.find(".acc_container:not(:first)").slideUp((function(){t(this).find(".block").css({opacity:0}).removeClass(e[0])}))),c.slideUp(),1==o.options.ctrl_btn&&o.options.acc_ctrl_btn.slideDown(),o.options.pagination&&o.baf_get_pagination_html(_,o.options.limit)),n=r.length<2&&setTimeout((function(){o.removeHighlightEvent()}),0),a=r.length>=2&&setTimeout((function(){var a=0;if(o.removeHighlightEvent(),o.$elem.find(".acc_title_bar").each((function(){var n=t(this).find("a"),s=t(this).next(".acc_container").find("*"),l=t(this).text()+t(this).next(".acc_container").text();o.highlightEvent(n,r),o.highlightEvent(s,r),l.search(new RegExp(r,"gi"))<0?(t(this).removeClass(i.title_active_class).slideUp(),t(this).next().removeClass(i.title_active_class).slideUp((function(){t(this).find(".block").css({opacity:0}).removeClass(e[0])})),o.options.pagination&&t(this).next().parent("section").removeAttr("class")):(o.highlightEvent(n,r),o.highlightEvent(s,r),t(this).addClass(i.title_active_class).slideDown(),t(this).next().addClass(i.title_active_class).slideDown((function(){t(this).find(".block").css({opacity:1}).addClass(e[0])})),o.options.pagination&&t(this).next().parent("section").addClass("filter"),a++)})),0==a)l.css({display:"inline-block"}),c.html(o.options.msg_no_result).slideDown((function(){1==o.options.ctrl_btn&&o.options.acc_ctrl_btn.slideUp()})),o.options.pagination&&o.baf_get_pagination_html(_,o.options.limit,a,1);else{l.css({display:"inline-block"});var n=o.$elem.find("i.highlight").length;c.html(n+o.options.msg_item_found).slideDown(),o.options.pagination&&setTimeout((function(){_.find("section.filter").css({display:"block"}),o.baf_get_pagination_html(_,o.options.limit,a,1)}),200)}s.removeClass("load"+h),s.addClass("search_icon"+d)}),200)}))},resetAccordion:function(i,e,a){var n=this,s=i.find(".search_result_container");n.$elem.find("section").removeAttr("class"),n.options.closeall?(n.$elem.find(".acc_title_bar").removeClass(e.title_active_class).slideDown(),n.$elem.find(".acc_container").slideUp((function(){t(this).find(".block").css({opacity:0}).removeClass(a[0])}))):(n.$elem.find(".acc_title_bar:first").addClass(e.title_active_class).slideDown(),n.$elem.find(".acc_container:first").slideDown((function(){t(this).find(".block").css({opacity:1}).addClass(a[0])})),n.$elem.find(".acc_title_bar:not(:first)").removeClass(e.title_active_class).slideDown(),n.$elem.find(".acc_container:not(:first)").slideUp((function(){t(this).find(".block").css({opacity:0}).removeClass(a[0])}))),s.slideUp((function(){1==n.options.ctrl_btn&&n.options.acc_ctrl_btn.slideDown()})),n.options.pagination&&n.baf_get_pagination_html(i,n.options.limit)},highlightEvent:function(t,i){var e=new RegExp(i,"gi");t.highlightRegex(e,{highlight_color:this.options.highlight_color,highlight_bg:this.options.highlight_bg})},removeHighlightEvent:function(){this.$elem.find("i.highlight").each((function(){t(this).replaceWith(t(this).text())}))}},t.fn.bwlAccordion=function(t){return this.each((function(){Object.create(i).init(t,this)}))},t.fn.bwlAccordion.config={search:!0,placeholder:"Search .....",theme:"default",animation:"fade",rtl:!1,msg_item_found:" Item(s) Found !",msg_no_result:"Nothing Found !",ctrl_btn:!1,toggle:!1,closeall:!0,nav_box:"",nav_icon:"",highlight_bg:"#FFFF80",highlight_color:"#000000",pagination:!1,limit:2},function(t){var i=function(e){if(e&&e.childNodes){var a=t.makeArray(e.childNodes),n=null;t.each(a,(function(t,a){3===a.nodeType?""===a.nodeValue?e.removeChild(a):null!==n?(n.nodeValue+=a.nodeValue,e.removeChild(a)):n=a:(n=null,a.childNodes&&i(a))}))}};t.fn.highlightRegex=function(e,a){return"object"!=typeof e||"RegExp"==e.constructor.name||e instanceof RegExp||(a=e,e=void 0),void 0===a&&(a={}),a.className=a.className||"highlight",a.tagType=a.tagType||"i",a.highlight_color=a.highlight_color||"",a.highlight_bg=a.highlight_bg||"",a.attrs=a.attrs||{},void 0===e||""===e.source?t(this).find(a.tagType+"."+a.className).each((function(){t(this).replaceWith(t(this).text()),i(t(this).parent().get(0))})):t(this).each((function(){var n=t(this).get(0);i(n),t.each(t.makeArray(n.childNodes),(function(n,s){var l,o,c,r,_,d;if(i(s),3==s.nodeType){if(t(s).parent(a.tagType+"."+a.className).length)return;for(;s.data&&(r=s.data.search(e))>=0&&(_=s.data.slice(r).match(e)[0]).length>0;)(l=document.createElement(a.tagType)).className=a.className,l.style.backgroundColor=a.highlight_bg,l.style.color=a.highlight_color,t(l).attr(a.attrs),d=s.parentNode,o=s.splitText(r),s=o.splitText(_.length),c=o.cloneNode(!0),l.appendChild(c),d.replaceChild(l,o)}else t(s).highlightRegex(e,a)}))})),t(this)}}(jQuery)},178:()=>{!function(t){"use strict";t((function(){if(t("#bkb_woo_accordion").bwlAccordion({search:bkb_search_box_status,placeholder:bkb_acc_search_text,theme:bkb_woo_theme,animation:bkb_woo_animation,rtl:bkb_rtl_mode,msg_item_found:bkb_acc_msg_item_found,msg_no_result:bkb_acc_msg_no_result,toggle:!0,highlight_bg:bkb_highlighter_bg,highlight_color:bkb_highlighter_text_color,pagination:bkb_pagination_status,limit:bkb_items_per_page,text_singular_page:string_singular_page,text_plural_page:string_plural_page,text_total:string_total}),t(".kbtfw_tab_tab").length&&1==bkb_display_counter){var i=t(".bkb_woo_counter"),e=t("#bkb_woo_accordion").find("section").length,a=t(".kbtfw_tab_tab").find("a").text();e>0?t(".kbtfw_tab_tab").find("a").html(a+" ("+e+")"):i.remove()}}))}(jQuery)}},i={};function e(a){var n=i[a];if(void 0!==n)return n.exports;var s=i[a]={exports:{}};return t[a](s,s.exports,e),s.exports}e.n=t=>{var i=t&&t.__esModule?()=>t.default:()=>t;return e.d(i,{a:i}),i},e.d=(t,i)=>{for(var a in i)e.o(i,a)&&!e.o(t,a)&&Object.defineProperty(t,a,{enumerable:!0,get:i[a]})},e.o=(t,i)=>Object.prototype.hasOwnProperty.call(t,i),(()=>{"use strict";e(239),e(178)})()})();
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./src/modules/bwlaccordion.js":
+/*!*************************************!*\
+  !*** ./src/modules/bwlaccordion.js ***!
+  \*************************************/
+/***/ (() => {
+
+/************************************************************
+ * Filename: jquery.bwlaccordion.js
+ * Title: BWL Searchable Accordion jQuery Plugin
+ * Description: Custom jQuery code for BWL Searchable Accordion jQuery Plugin
+ * Author: xenioushk
+ * Author Page: http://codecanyon.net/user/xenioushk
+ * Website: http://bluewindalb.net
+ * Plugin URL: http://codecanyon.net/item/bwl-searchable-accordion-jquery-plugin/8184405?ref=xenioushk
+ * Version: 1.0.7
+ * Create Date: 04-07-2014	
+ * Last Update: 14-04-2016	
+ ************************************************************/
+
+if (typeof Object.create !== 'function') {
+  Object.create = function (obj) {
+    function F() {}
+    ;
+    F.prototype = obj;
+    return new F();
+  };
+}
+;
+(function ($, window, document, undefind) {
+  var bwlAccordion = {
+    init: function (options, elem) {
+      var self = this;
+      self.elem = elem;
+      self.$elem = $(elem);
+
+      /*------------------------------ DEFAULT OPTIONS ---------------------------------*/
+
+      this.options = $.extend({}, $.fn.bwlAccordion.config, options); // Override old sutff     
+
+      /*------------------------------ Attach Pagination Navigation  ---------------------------------*/
+
+      if (self.options.pagination) {
+        var $acc_nav_html = '<input type="hidden" id="current_page"><input type="hidden" id="show_per_page"><div id="acc_page_navigation" class="acc_page_navigation" data-paginate="" data-pag_limit=""></div>';
+        self.$elem.append($acc_nav_html);
+      }
+
+      /*------------------------------ BIND ALL CLICK EVENTS  ---------------------------------*/
+
+      var animation_class = self.get_animation_class();
+      this.options.inAnimation = animation_class[0];
+      if (this.options.rtl == true) {
+        self.addRTLSupport();
+      }
+      self.displayAccordion();
+      self.displaySearchBox();
+      var $acc_title_bar = self.$elem.find('.acc_title_bar');
+      var $accordion_search_input_box = self.$elem.find('.accordion_search_input_box'); // search input box container
+
+      if (this.options.ctrl_btn == true) {
+        //@since: 1.0.6
+        //Added Exapand/Collapse All Button.
+
+        var $acc_ctrl_html = '<p class="acc-ctrl-btn"><span class="acc-expand-all"><i class="fa fa-plus"></i></span><span class="acc-collapsible-all"><i class="fa fa-minus"></i></span></p>';
+        self.$elem.find('section:first').before($acc_ctrl_html);
+        this.options.acc_ctrl_btn = self.$elem.find('.acc-ctrl-btn');
+      }
+      if (this.options.nav_box != "") {
+        $acc_title_bar.addClass('nav_' + this.options.nav_box);
+      }
+      if (this.options.nav_icon != "") {
+        $acc_title_bar.addClass('nav_icon_' + this.options.nav_icon);
+      }
+
+      // Reset all search box :)
+
+      $accordion_search_input_box.each(function () {
+        $(this).val("").attr("placeholder", self.options.placeholder);
+        if (self.options.rtl == true) {
+          $(this).after('<span class="rtl_clear_btn"></span>');
+        } else {
+          $(this).after('<span class="acc_clear_btn"></span>');
+        }
+      });
+
+      // Attach Search Keyup Event.
+
+      var theme_class = self.getThemeClasses(self.options.theme);
+      self.searchEvent(theme_class, animation_class);
+      $acc_title_bar.on("click", function () {
+        self.toggleEvent($(this), theme_class, animation_class, self.$elem);
+        return false;
+      });
+
+      // Clear Button Event.
+      var $acc_clear_btn;
+      if (self.options.rtl == true) {
+        $acc_clear_btn = self.$elem.find('.rtl_clear_btn');
+      } else {
+        $acc_clear_btn = self.$elem.find('.acc_clear_btn');
+      }
+      $acc_clear_btn.on("click", function () {
+        $(this).removeAttr("style");
+        var $baf_section = self.$elem,
+          $accordion_search_input_box = $baf_section.find('.accordion_search_input_box');
+        $accordion_search_input_box.val("").attr("placeholder", self.options.placeholder);
+        self.removeHighlightEvent();
+        self.resetAccordion($baf_section, theme_class, animation_class);
+      });
+
+      // Expand/Collapse Button Event.
+      // @Since: 1.0.6
+
+      if (this.options.ctrl_btn == 1) {
+        var $acc_expand_all = self.$elem.find('.acc-expand-all'),
+          $acc_collapsible_all = self.$elem.find('.acc-collapsible-all');
+
+        // Expand Event.
+
+        $acc_expand_all.on("click", function () {
+          self.$elem.find('section').each(function () {
+            $(this).find(".acc_title_bar").addClass(theme_class.title_active_class).slideDown();
+            $(this).find('.acc_container').slideDown(function () {
+              $(this).find(".block").css({
+                'opacity': 1
+              }).addClass(animation_class[0]);
+            });
+          });
+        });
+
+        // Collapse Event.
+
+        $acc_collapsible_all.on("click", function () {
+          self.$elem.find('section').each(function () {
+            $(this).find(".acc_title_bar").removeClass(theme_class.title_active_class).slideDown();
+            $(this).find('.acc_container').slideUp(function () {
+              $(this).find(".block").css({
+                'opacity': 0
+              }).removeClass(animation_class[0]);
+            });
+          });
+        });
+      }
+    },
+    addRTLSupport: function () {
+      var self = this;
+      self.$elem.addClass('bwl_acc_container_rtl_support');
+      self.$elem.find('.acc_title_bar').addClass('rtl-title-bar');
+      self.$elem.find('.accordion_search_input_box').addClass('search_icon_rtl');
+    },
+    displaySearchBox: function () {
+      var self = this;
+      if (self.options.search == false) {
+        self.$elem.find('.accordion_search_container').remove();
+      } else {
+        self.$elem.find('.accordion_search_container').css({
+          display: 'block'
+        });
+      }
+    },
+    displayAccordion: function () {
+      var self = this;
+
+      //set theme.
+      //                console.log("Pagination Status: "+self.options.pagination);
+      //                console.log("Pagination Limit: "+self.options.limit);
+      var theme_class = self.getThemeClasses(self.options.theme);
+
+      // Add Theme Classes.
+      self.$elem.find('.acc_title_bar').addClass(theme_class.title_bar_class);
+
+      //Set default open/close settings
+      self.$elem.find('.acc_container').slideUp(100); //Hide/close all containers
+
+      self.$elem.find('.acc_container').find(".block").css({
+        'opacity': 1
+      }).addClass(self.options.inAnimation);
+
+      // Added in version 1.0.6
+      if (self.options.closeall == false) {
+        self.$elem.find('.acc_title_bar:first').addClass(theme_class.title_active_class).next().slideDown(700); //Add "active" class to first title_bar, then show/open the immediate next container
+      }
+
+      // Pagination Theme
+      if (self.options.pagination) {
+        self.$elem.find('.acc_page_navigation').addClass(theme_class.nav_class);
+      }
+      if (self.options.pagination) {
+        var $baf_item_per_page_val = self.$elem.find('.acc_container').size(); // get all Items
+        var $baf_section = self.$elem;
+        var show_per_page = self.options.limit;
+        var number_of_items = $baf_item_per_page_val;
+        $baf_section.find('.acc_page_navigation').attr('data-paginate', self.options.pagination);
+        $baf_section.find('.acc_page_navigation').attr('data-pag_limit', self.options.limit);
+        self.baf_get_pagination_html($baf_section, show_per_page, number_of_items);
+      }
+    },
+    baf_get_pagination_html: function ($baf_section, show_per_page, number_of_items, baf_search) {
+      var self = this;
+
+      // show_per_page == start_on
+      // number_of_items = end_on
+
+      var $baf_paginate_status = $baf_section.find('.acc_page_navigation').data('paginate');
+
+      //            console.log("Container: " + $baf_section);
+      //            console.log("Search Per Page: " + show_per_page);
+      //            console.log("Total Number Of Items: " + number_of_items);
+      //            console.log("Pagination Status: "+$baf_paginate_status);
+      //            console.log("Search Status: "+baf_search);
+
+      var baf_display_limit = 10;
+      var string_singular_page = "Page";
+      var string_plural_page = "Pages";
+      var string_total = "Total";
+      if (typeof baf_search != 'undefined' && baf_search == 1) {
+        if ($baf_paginate_status == 1) {
+          //                    var $searched_faq_items = $baf_section.find("div.bwl-faq-container:visible");
+          var $searched_faq_items = $baf_section.find("section.filter");
+          //                    console.log("Searching....");
+          //                    $searched_faq_items.addClass("filter");
+
+          var total_faq_items = $searched_faq_items.size();
+          var number_of_items = number_of_items;
+          var $items_need_to_show = $searched_faq_items.slice(0, show_per_page);
+          var $items_need_to_hide = $searched_faq_items.slice(show_per_page, total_faq_items);
+          $items_need_to_hide.css('display', 'none');
+        }
+        $baf_section.find("input[type=text]").removeClass('search_load').addClass('search_icon');
+      } else {
+        //getting the amount of elements inside content div
+
+        //                $baf_section.find("div.bwl-faq-container").css('display', 'none');
+        $baf_section.find("section").css('display', 'none');
+
+        //and show the first n (show_per_page) elements
+        $baf_section.find("section").slice(0, show_per_page).css('display', 'block');
+        var number_of_items = $baf_section.find("section").size();
+      }
+
+      //calculate the number of pages we are going to have
+      var number_of_pages = Math.ceil(number_of_items / show_per_page);
+
+      //set the value of our hidden input fields
+      $baf_section.find('#current_page').val(0);
+      $baf_section.find('#show_per_page').val(show_per_page);
+      //now when we got all we need for the navigation let's make it '
+
+      /*
+       what are we going to have in the navigation?
+       - link to previous page
+       - links to specific pages
+       - link to next page
+       */
+      var navigation_html = '<a class="previous_link" href="#"><i class="fa fa-angle-left"></i></a>';
+      var current_link = 0;
+      var page_array = [];
+      var display_none_class = "";
+      var acc_pages_string = string_singular_page;
+      while (number_of_pages > current_link) {
+        page_array[current_link] = current_link;
+        if (number_of_pages > baf_display_limit && current_link >= baf_display_limit) {
+          display_none_class = " baf_dn";
+        }
+        navigation_html += '<a class="page_link' + display_none_class + '" href="#" longdesc="' + current_link + '">' + (current_link + 1) + '</a>';
+        current_link++;
+      }
+      if (number_of_pages > 1) {
+        acc_pages_string = string_plural_page;
+      }
+      navigation_html += '<a class="next_link" href="#"><i class="fa fa-angle-right"></i></a><br /><span class="total_pages">' + string_total + ' ' + number_of_pages + ' ' + acc_pages_string + '</span>';
+      $baf_section.find('#acc_page_navigation').html("").html(navigation_html);
+      if ($baf_paginate_status == 0) {
+        $baf_section.find('#acc_page_navigation').remove();
+      }
+      if (page_array.length == 0) {
+        $baf_section.find('#acc_page_navigation').css("display", "none");
+      } else {
+        $baf_section.find('#acc_page_navigation').css("display", "block");
+      }
+
+      //add active_page class to the first page link
+      $baf_section.find('#acc_page_navigation .page_link:first').addClass('active_page');
+      $baf_section.find(".next_link").on("click", function () {
+        var new_page = parseInt($baf_section.find('#current_page').val()) + 1;
+
+        //if there is an item after the current active link run the function
+
+        var $active_page = $baf_section.find('.active_page').next('.page_link');
+        if ($active_page.length == true) {
+          if ($active_page.hasClass('baf_dn')) {
+            $active_page.removeClass('baf_dn');
+            var total_link_need_to_hide = parseInt($baf_section.find('a.page_link:visible').length) - baf_display_limit;
+            $baf_section.find('a.page_link:visible').slice(0, total_link_need_to_hide).addClass('baf_dn');
+          }
+          self.baf_go_to_page($baf_section, new_page);
+        }
+        return false;
+      });
+      $baf_section.find(".previous_link").on("click", function () {
+        var new_page = parseInt($baf_section.find('#current_page').val()) - 1;
+        //if there is an item before the current active link run the function
+
+        var $active_page = $baf_section.find('.active_page').prev('.page_link');
+        var number_of_items = $baf_section.find("div.bwl-faq-container").size();
+        var start = parseInt($baf_section.find('a.page_link:visible:first').attr('longdesc')) - 1;
+        var end = $baf_section.find('a.page_link:visible:last').attr('longdesc');
+        if ($active_page.length == true) {
+          if (start > -1 && end < number_of_items) {
+            $baf_section.find('a.page_link').addClass('baf_dn');
+            $baf_section.find('a.page_link').slice(start, end).removeClass('baf_dn');
+          }
+          self.baf_go_to_page($baf_section, new_page);
+        }
+        return false;
+      });
+      $baf_section.find('.page_link').on("click", function () {
+        var current_link = $(this).attr('longdesc');
+        self.baf_go_to_page($baf_section, current_link);
+        return false;
+      });
+    },
+    baf_go_to_page: function ($baf_section, page_num) {
+      //            console.log("Holla");
+      //            console.log("Go To Page Search Status: "+search_status);
+      var search_status = 0;
+      if ($baf_section.find("input[type=text]").length && $baf_section.find("input[type=text]").val().length > 1) {
+        search_status = 1;
+      }
+      var show_per_page = parseInt($baf_section.find('#show_per_page').val());
+
+      //get the element number where to start the slice from
+      var start_from = page_num * show_per_page;
+
+      //get the element number where to end the slice
+      var end_on = start_from + show_per_page;
+      if (search_status == 1) {
+        $baf_section.find("section.filter").css('display', 'none').slice(start_from, end_on).css('display', 'block');
+      } else {
+        $baf_section.find("section").css('display', 'none').slice(start_from, end_on).css('display', 'block');
+      }
+
+      /*get the page link that has longdesc attribute of the current page and add active_page class to it
+       and remove that class from previously active page link*/
+      $baf_section.find('.page_link[longdesc=' + page_num + ']').addClass('active_page').siblings('.active_page').removeClass('active_page');
+
+      //update the current page input field
+      $baf_section.find('#current_page').val(page_num);
+    },
+    getThemeClasses: function (theme_name) {
+      var self = this;
+      var rtl_support_class = "";
+      var nav_icon_active_class = "";
+      if (self.options.nav_icon != "") {
+        nav_icon_active_class = ' nav_icon_' + self.options.nav_icon + '_active';
+      }
+      if (this.options.rtl == true) {
+        rtl_support_class += " rtl-title-active";
+      }
+      if (theme_name == 'theme-red') {
+        return {
+          'title_bar_class': 'theme-red-title-bar',
+          'title_active_class': 'theme-red-title-active' + nav_icon_active_class + rtl_support_class,
+          'nav_class': 'red_theme_nav'
+        };
+      } else if (theme_name == 'theme-green') {
+        return {
+          'title_bar_class': 'theme-green-title-bar',
+          'title_active_class': 'theme-green-title-active' + nav_icon_active_class + rtl_support_class,
+          'nav_class': 'green_theme_nav'
+        };
+      } else if (theme_name == 'theme-blue') {
+        return {
+          'title_bar_class': 'theme-blue-title-bar',
+          'title_active_class': 'theme-blue-title-active' + nav_icon_active_class + rtl_support_class,
+          'nav_class': 'blue_theme_nav'
+        };
+      } else if (theme_name == 'theme-orange') {
+        return {
+          'title_bar_class': 'theme-orange-title-bar',
+          'title_active_class': 'theme-orange-title-active' + nav_icon_active_class + rtl_support_class,
+          'nav_class': 'orange_theme_nav'
+        };
+      } else if (theme_name == 'theme-yellow') {
+        return {
+          'title_bar_class': 'theme-yellow-title-bar',
+          'title_active_class': 'theme-yellow-title-active' + nav_icon_active_class + rtl_support_class,
+          'nav_class': 'yellow_theme_nav'
+        };
+      } else {
+        return {
+          'title_bar_class': 'default-title-bar',
+          'title_active_class': 'default-title-bar-active' + nav_icon_active_class + rtl_support_class,
+          'nav_class': 'default_theme_nav'
+        };
+      }
+    },
+    get_animation_class: function () {
+      var self = this;
+      var inAnimation = "animated ";
+      if (self.options.animation == "flash") {
+        inAnimation += 'flash';
+      } else if (self.options.animation == "shake") {
+        inAnimation += 'shake';
+      } else if (self.options.animation == "tada") {
+        inAnimation += 'tada';
+      } else if (self.options.animation == "swing") {
+        inAnimation += 'swing';
+      } else if (self.options.animation == "wobble") {
+        inAnimation += 'wobble';
+      } else if (self.options.animation == "pulse") {
+        inAnimation += 'pulse';
+      } else if (self.options.animation == "flipx") {
+        inAnimation += 'flipInX';
+      } else if (self.options.animation == "faderight") {
+        inAnimation += 'fadeInLeft';
+      } else if (self.options.animation == "fadeleft") {
+        inAnimation += 'fadeInRight';
+      } else if (self.options.animation == "slide") {
+        inAnimation += 'slideInRight';
+      } else if (self.options.animation == "slideup") {
+        inAnimation += 'slideInDown';
+      } else if (self.options.animation == "bounce") {
+        inAnimation += 'bounceIn';
+      } else if (self.options.animation == "lightspeed") {
+        inAnimation += 'lightSpeedIn';
+      } else if (self.options.animation == "roll") {
+        inAnimation += 'rollIn';
+      } else if (self.options.animation == "rotate") {
+        inAnimation += 'rotateIn';
+      } else if (self.options.animation == "fade") {
+        inAnimation += 'fadeInDown';
+      } else if (self.options.animation == "none") {
+        inAnimation = '';
+      } else {
+        inAnimation += 'fadeIn';
+      }
+      return [inAnimation];
+    },
+    toggleEvent: function (parent, theme_class, animation_class, elem) {
+      var self = this;
+      var toggle_status = self.options.toggle;
+      var self = parent;
+      if (self.hasClass(theme_class.title_active_class)) {
+        self.toggleClass(theme_class.title_active_class).next().slideUp(function () {
+          $(this).find(".block").css({
+            'opacity': 0
+          }).removeClass(animation_class[0]);
+        });
+      }
+      if (toggle_status == true) {
+        var allAccordionBlocks = elem.find('.acc_container');
+        var allAccordionTitles = elem.find('.acc_title_bar');
+        allAccordionTitles.removeClass(theme_class.title_active_class);
+        allAccordionBlocks.slideUp(function () {
+          $(this).find(".block").css({
+            'opacity': 0
+          }).removeClass(animation_class[0]);
+        });
+      }
+      if (self.next().is(':hidden')) {
+        //If immediate next container is closed...
+
+        self.removeClass(theme_class.title_active_class).next().slideUp(function () {
+          $(this).find(".block").css({
+            'opacity': 0
+          }).removeClass(animation_class[0]);
+        });
+        self.toggleClass(theme_class.title_active_class).next().slideDown(function () {
+          $(this).find(".block").css({
+            'opacity': 1
+          }).addClass(animation_class[0]);
+        });
+      }
+    },
+    searchEvent: function (theme_class, animation_class) {
+      var self = this;
+      var filter_timeout,
+        remove_filter_timeout,
+        acc_live_search,
+        $acc_clear_btn,
+        search_result_container = self.$elem.find(".search_result_container");
+      var $accordion_search_input_box = self.$elem.find('.accordion_search_input_box'); // search input box container
+      var $baf_section = self.$elem;
+      if (self.options.rtl == true) {
+        $acc_clear_btn = $baf_section.find('.rtl_clear_btn');
+      } else {
+        $acc_clear_btn = $baf_section.find('.acc_clear_btn');
+      }
+      var search_icon_rtl = "",
+        load_rtl = "";
+      if (self.options.rtl == true) {
+        search_icon_rtl += " search_icon_rtl";
+        load_rtl += " load_rtl";
+      }
+      $accordion_search_input_box.on("keyup", function () {
+        acc_live_search = $(this);
+        acc_live_search.addClass('load' + load_rtl);
+        clearTimeout(remove_filter_timeout);
+        clearTimeout(filter_timeout);
+        var search_keywords = $.trim(acc_live_search.val());
+        if (search_keywords.length == 0) {
+          $acc_clear_btn.removeAttr("style");
+        }
+        if (search_keywords.length < 2) {
+          acc_live_search.removeClass('load' + load_rtl);
+          self.$elem.find('section').removeAttr('class');
+          if (self.options.closeall) {
+            // Close All Accordion Section.
+            // @Since: 1.0.6
+
+            self.$elem.find(".acc_title_bar").removeClass(theme_class.title_active_class).slideDown();
+            self.$elem.find('.acc_container').slideUp(function () {
+              $(this).find(".block").css({
+                'opacity': 0
+              }).removeClass(animation_class[0]);
+            });
+          } else {
+            self.$elem.find(".acc_title_bar:first").addClass(theme_class.title_active_class).slideDown();
+            self.$elem.find('.acc_container:first').slideDown(function () {
+              $(this).find(".block").css({
+                'opacity': 1
+              }).addClass(animation_class[0]);
+            });
+            self.$elem.find(".acc_title_bar:not(:first)").removeClass(theme_class.title_active_class).slideDown();
+            self.$elem.find('.acc_container:not(:first)').slideUp(function () {
+              $(this).find(".block").css({
+                'opacity': 0
+              }).removeClass(animation_class[0]);
+            });
+          }
+          search_result_container.slideUp();
+
+          // For Controll
+          if (self.options.ctrl_btn == true) {
+            self.options.acc_ctrl_btn.slideDown();
+          }
+
+          // For Pagnation.
+          if (self.options.pagination) {
+            self.baf_get_pagination_html($baf_section, self.options.limit);
+          }
+        }
+        remove_filter_timeout = search_keywords.length < 2 && setTimeout(function () {
+          self.removeHighlightEvent();
+        }, 0);
+        filter_timeout = search_keywords.length >= 2 && setTimeout(function () {
+          var count = 0;
+          //                        console.log("goo");
+          self.removeHighlightEvent();
+          self.$elem.find(".acc_title_bar").each(function () {
+            var acc_heading = $(this).find('a');
+            var acc_container = $(this).next(".acc_container").find("*");
+            var search_string = $(this).text() + $(this).next(".acc_container").text();
+
+            /*------------------------------  Start New Code---------------------------------*/
+            //                                setTimeout(function(){
+            self.highlightEvent(acc_heading, search_keywords);
+            self.highlightEvent(acc_container, search_keywords);
+            //                                },700);
+
+            /*------------------------------End New Code  ---------------------------------*/
+
+            if (search_string.search(new RegExp(search_keywords, "gi")) < 0) {
+              $(this).removeClass(theme_class.title_active_class).slideUp();
+              $(this).next().removeClass(theme_class.title_active_class).slideUp(function () {
+                $(this).find(".block").css({
+                  'opacity': 0
+                }).removeClass(animation_class[0]);
+              });
+
+              // For Pagination.
+              if (self.options.pagination) {
+                $(this).next().parent('section').removeAttr("class");
+              }
+            } else {
+              self.highlightEvent(acc_heading, search_keywords);
+              self.highlightEvent(acc_container, search_keywords);
+              $(this).addClass(theme_class.title_active_class).slideDown();
+              $(this).next().addClass(theme_class.title_active_class).slideDown(function () {
+                $(this).find(".block").css({
+                  'opacity': 1
+                }).addClass(animation_class[0]);
+              });
+
+              // For Pagination.
+              if (self.options.pagination) {
+                $(this).next().parent('section').addClass("filter");
+              }
+              count++;
+            }
+          });
+          if (count == 0) {
+            $acc_clear_btn.css({
+              'display': 'inline-block'
+            });
+            search_result_container.html(self.options.msg_no_result).slideDown(function () {
+              // For Controll Button
+              if (self.options.ctrl_btn == true) {
+                self.options.acc_ctrl_btn.slideUp();
+              }
+            });
+
+            // For Pagination.
+            if (self.options.pagination) {
+              self.baf_get_pagination_html($baf_section, self.options.limit, count, 1);
+            }
+          } else {
+            $acc_clear_btn.css({
+              'display': 'inline-block'
+            });
+
+            //Fixed in version 1.0.7
+            var item_found_count = self.$elem.find("i.highlight").length;
+            search_result_container.html(item_found_count + self.options.msg_item_found).slideDown();
+
+            // For Pagination.
+            if (self.options.pagination) {
+              setTimeout(function () {
+                $baf_section.find('section.filter').css({
+                  'display': 'block'
+                });
+                self.baf_get_pagination_html($baf_section, self.options.limit, count, 1);
+              }, 200);
+            }
+          }
+          acc_live_search.removeClass('load' + load_rtl);
+          acc_live_search.addClass('search_icon' + search_icon_rtl);
+        }, 200);
+      });
+    },
+    resetAccordion: function ($baf_section, theme_class, animation_class) {
+      var self = this;
+      var search_result_container = $baf_section.find(".search_result_container");
+
+      //                acc_live_search.removeClass('load' + load_rtl);
+      self.$elem.find('section').removeAttr('class');
+      if (self.options.closeall) {
+        // Close All Accordion Section.
+        // @Since: 1.0.6
+
+        self.$elem.find(".acc_title_bar").removeClass(theme_class.title_active_class).slideDown();
+        self.$elem.find('.acc_container').slideUp(function () {
+          $(this).find(".block").css({
+            'opacity': 0
+          }).removeClass(animation_class[0]);
+        });
+      } else {
+        // Only open the first section of accordion.
+        // @Since: 1.0.0
+        self.$elem.find(".acc_title_bar:first").addClass(theme_class.title_active_class).slideDown();
+        self.$elem.find('.acc_container:first').slideDown(function () {
+          $(this).find(".block").css({
+            'opacity': 1
+          }).addClass(animation_class[0]);
+        });
+        self.$elem.find(".acc_title_bar:not(:first)").removeClass(theme_class.title_active_class).slideDown();
+        self.$elem.find('.acc_container:not(:first)').slideUp(function () {
+          $(this).find(".block").css({
+            'opacity': 0
+          }).removeClass(animation_class[0]);
+        });
+      }
+      search_result_container.slideUp(function () {
+        if (self.options.ctrl_btn == true) {
+          self.options.acc_ctrl_btn.slideDown();
+        }
+      });
+      if (self.options.pagination) {
+        self.baf_get_pagination_html($baf_section, self.options.limit);
+      }
+    },
+    highlightEvent: function (acc_content, search_keywords) {
+      var self = this;
+      var regex = new RegExp(search_keywords, "gi");
+
+      // Fixed in 1.0.4 version.
+
+      acc_content.highlightRegex(regex, {
+        highlight_color: self.options.highlight_color,
+        highlight_bg: self.options.highlight_bg
+      });
+    },
+    removeHighlightEvent: function () {
+      var self = this;
+      self.$elem.find('i.highlight').each(function () {
+        $(this).replaceWith($(this).text());
+      });
+    }
+  };
+
+  // Initialization Of Plugin
+
+  $.fn.bwlAccordion = function (options) {
+    return this.each(function () {
+      var bwlaccordion = Object.create(bwlAccordion);
+      bwlaccordion.init(options, this);
+    });
+  };
+
+  // Default Options Setion.
+
+  $.fn.bwlAccordion.config = {
+    search: true,
+    // true/false
+    placeholder: 'Search .....',
+    // You can write any thing as a placeholder text
+    theme: 'default',
+    // theme-red/theme-blue/theme-green/theme-orange/theme-yellow
+    animation: 'fade',
+    // flash/shake/tada/swing/wobble/pulse/flipx/faderight/fadeleft/slide/slideup/bounce/lightspeed/roll/rotate/fade/none,
+    rtl: false,
+    msg_item_found: ' Item(s) Found !',
+    msg_no_result: 'Nothing Found !',
+    ctrl_btn: false,
+    //Display expand all/ collapse all button.
+    toggle: false,
+    //Turn it on, If you want to open only one section and keep other section collapsed.
+    closeall: true,
+    // Closed all the section on initialization( Added in version 1.0.6),
+    nav_box: '',
+    // cross/square/arrow/circle (default: cross)
+    nav_icon: '',
+    // plus/angle/angle_double/angle_caret/angle_chevron (default: plus)
+    highlight_bg: "#FFFF80",
+    // founded item background color
+    highlight_color: '#000000',
+    // founded item text color.
+    pagination: false,
+    // pagination status.
+    limit: 2 // item per page.
+  };
+})(jQuery, window, document);
+
+/*
+ * Highlight Scripts
+ */
+
+;
+(function ($) {
+  var normalize = function (node) {
+    if (!(node && node.childNodes)) return;
+    var children = $.makeArray(node.childNodes),
+      prevTextNode = null;
+    $.each(children, function (i, child) {
+      if (child.nodeType === 3) {
+        if (child.nodeValue === "") {
+          node.removeChild(child);
+        } else if (prevTextNode !== null) {
+          prevTextNode.nodeValue += child.nodeValue;
+          node.removeChild(child);
+        } else {
+          prevTextNode = child;
+        }
+      } else {
+        prevTextNode = null;
+        if (child.childNodes) {
+          normalize(child);
+        }
+      }
+    });
+  };
+  $.fn.highlightRegex = function (regex, options) {
+    if (typeof regex === 'object' && !(regex.constructor.name == 'RegExp' || regex instanceof RegExp)) {
+      options = regex;
+      regex = undefined;
+    }
+    if (typeof options === 'undefined') options = {};
+    options.className = options.className || 'highlight';
+    options.tagType = options.tagType || 'i';
+    options.highlight_color = options.highlight_color || '';
+    options.highlight_bg = options.highlight_bg || '';
+    options.attrs = options.attrs || {};
+    if (typeof regex === 'undefined' || regex.source === '') {
+      $(this).find(options.tagType + '.' + options.className).each(function () {
+        $(this).replaceWith($(this).text());
+        normalize($(this).parent().get(0));
+      });
+    } else {
+      $(this).each(function () {
+        var elt = $(this).get(0);
+        normalize(elt);
+        $.each($.makeArray(elt.childNodes), function (i, searchnode) {
+          var spannode, middlebit, middleclone, pos, match, parent;
+          normalize(searchnode);
+          if (searchnode.nodeType == 3) {
+            // don't re-highlight the same node over and over
+            if ($(searchnode).parent(options.tagType + '.' + options.className).length) {
+              return;
+            }
+            while (searchnode.data && (pos = searchnode.data.search(regex)) >= 0) {
+              match = searchnode.data.slice(pos).match(regex)[0];
+              if (match.length > 0) {
+                spannode = document.createElement(options.tagType);
+                spannode.className = options.className;
+                spannode.style.backgroundColor = options.highlight_bg;
+                spannode.style.color = options.highlight_color;
+                $(spannode).attr(options.attrs);
+                parent = searchnode.parentNode;
+                middlebit = searchnode.splitText(pos);
+                searchnode = middlebit.splitText(match.length);
+                middleclone = middlebit.cloneNode(true);
+                spannode.appendChild(middleclone);
+                parent.replaceChild(spannode, middlebit);
+              } else break;
+            }
+          } else {
+            $(searchnode).highlightRegex(regex, options);
+          }
+        });
+      });
+    }
+    return $(this);
+  };
+})(jQuery);
+
+/***/ }),
+
+/***/ "./src/modules/kbtfw_custom_scripts.js":
+/*!*********************************************!*\
+  !*** ./src/modules/kbtfw_custom_scripts.js ***!
+  \*********************************************/
+/***/ (() => {
+
+;
+(function ($) {
+  "use strict";
+
+  $(function () {
+    // Place your public-facing JavaScript here
+
+    $("#bkb_woo_accordion").bwlAccordion({
+      search: bkb_search_box_status,
+      // true/false
+      placeholder: bkb_acc_search_text,
+      // You can write any thing as a placeholder text
+      theme: bkb_woo_theme,
+      // theme-red/theme-blue/theme-green/theme-orange/theme-yellow
+      animation: bkb_woo_animation,
+      // flash/shake/tada/swing/wobble/pulse/flipx/faderight/fadeleft/slide/slideup/bounce/lightspeed/roll/rotate/fade/none,
+      rtl: bkb_rtl_mode,
+      msg_item_found: bkb_acc_msg_item_found,
+      msg_no_result: bkb_acc_msg_no_result,
+      toggle: true,
+      //
+      highlight_bg: bkb_highlighter_bg,
+      // founded item background color
+      highlight_color: bkb_highlighter_text_color,
+      // founded item text color.
+      pagination: bkb_pagination_status,
+      // pagination status.
+      limit: bkb_items_per_page,
+      // item per page..,
+      text_singular_page: string_singular_page,
+      text_plural_page: string_plural_page,
+      text_total: string_total
+    });
+
+    /*------------------------------  Count Total No of KBs---------------------------------*/
+
+    if ($(".kbtfw_tab_tab").length && bkb_display_counter == 1) {
+      var $bkb_woo_counter = $(".bkb_woo_counter"),
+        $bkb_woo_parent_container = $("#bkb_woo_accordion"),
+        $bkb_woo_total_items = $bkb_woo_parent_container.find("section").length,
+        $bkb_woo_tab_title_text = $(".kbtfw_tab_tab").find("a").text();
+      if ($bkb_woo_total_items > 0) {
+        $(".kbtfw_tab_tab").find("a").html($bkb_woo_tab_title_text + " (" + $bkb_woo_total_items + ")");
+      } else {
+        $bkb_woo_counter.remove();
+      }
+    }
+  });
+})(jQuery);
+
+/***/ }),
+
+/***/ "./src/styles/frontend.scss":
+/*!**********************************!*\
+  !*** ./src/styles/frontend.scss ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+(() => {
+"use strict";
+/*!**********************!*\
+  !*** ./src/index.js ***!
+  \**********************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _styles_frontend_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./styles/frontend.scss */ "./src/styles/frontend.scss");
+/* harmony import */ var _modules_bwlaccordion__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/bwlaccordion */ "./src/modules/bwlaccordion.js");
+/* harmony import */ var _modules_bwlaccordion__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_modules_bwlaccordion__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _modules_kbtfw_custom_scripts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/kbtfw_custom_scripts */ "./src/modules/kbtfw_custom_scripts.js");
+/* harmony import */ var _modules_kbtfw_custom_scripts__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_modules_kbtfw_custom_scripts__WEBPACK_IMPORTED_MODULE_2__);
+// Stylesheets
+
+
+// Javascripts
+
+
+})();
+
+/******/ })()
+;
+//# sourceMappingURL=frontend.js.map

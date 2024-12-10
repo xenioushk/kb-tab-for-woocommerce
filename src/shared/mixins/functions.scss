@@ -1,0 +1,3 @@
+@function get-font-weight($weight: regular) {
+  @return map-get($font-weights, $weight);
+}
