@@ -1,106 +1,92 @@
 <?php
 
-use \BwlKbManager\Base\BaseController;
-use \BwlKbManager\Api\CmbMetaBoxApi;
+use BwlKbManager\Base\BaseController;
+use BwlKbManager\Api\CmbMetaBoxApi;
 
 
-class BKB_kbtfw_Admin
-{
+class BKB_kbtfw_Admin {
+
 
     protected static $instance = null;
     public $plugin_slug;
     public $baseController; // parent controller of the addon.
     protected $plugin_screen_hook_suffix = null;
 
-    private function __construct()
-    {
+    private function __construct() {
 
-        //@Description: First we need to check if KB Plugin & WooCommerce is activated or not. If not then we display a message and return false.
-        //@Since: Version 1.0.5
+        // @Description: First we need to check if KB Plugin & WooCommerce is activated or not. If not then we display a message and return false.
+        // @Since: Version 1.0.5
 
-        if (!class_exists('BwlKbManager\\Init') || !class_exists('WooCommerce') || BKBKBTFW_PARENT_PLUGIN_INSTALLED_VERSION < '1.0.5') {
-            add_action('admin_notices', array($this, 'kbtfw_version_update_admin_notice'));
+        if ( ! class_exists( 'BwlKbManager\\Init' ) || ! class_exists( 'WooCommerce' ) || BKBKBTFW_PARENT_PLUGIN_INSTALLED_VERSION < '1.0.5' ) {
+            add_action( 'admin_notices', [ $this, 'kbtfw_version_update_admin_notice' ] );
             return false;
         }
 
         // Start Plugin Admin Panel Code.
 
-        $plugin = BKB_kbtfw::get_instance();
-        $this->plugin_slug = $plugin->get_plugin_slug();
+        $plugin               = BKB_kbtfw::get_instance();
+        $this->plugin_slug    = $plugin->get_plugin_slug();
         $this->baseController = new BaseController();
-        $post_types = 'product';
+        $post_types           = 'product';
 
-        $this->includedFiles();
+        add_action( 'admin_init', [ $this, 'kbtfw_cmb_framework' ] );
+        add_action( 'admin_enqueue_scripts', [ $this, 'bkb_kbtfw_admin_enqueue_scripts' ] );
 
-        add_action('admin_init', array($this, 'kbtfw_cmb_framework'));
-        add_action('admin_enqueue_scripts', array($this, 'bkb_kbtfw_admin_enqueue_scripts'));
-
-        add_filter('manage_' . $post_types . '_posts_columns', array($this, 'kbtfw_custom_column_header'));
-        add_action('manage_' . $post_types . '_posts_custom_column', array($this, 'kbtfw_display_custom_column'), 10, 1);
-
+        add_filter( 'manage_' . $post_types . '_posts_columns', [ $this, 'kbtfw_custom_column_header' ] );
+        add_action( 'manage_' . $post_types . '_posts_custom_column', [ $this, 'kbtfw_display_custom_column' ], 10, 1 );
 
         // Quick & Bulk Edit Section.
 
-        add_action('bulk_edit_custom_box', array($this, 'kbtfw_product_quick_edit_box'), 10, 2);
-        add_action('quick_edit_custom_box', array($this, 'kbtfw_product_quick_edit_box'), 10, 2);
+        add_action( 'bulk_edit_custom_box', [ $this, 'kbtfw_product_quick_edit_box' ], 10, 2 );
+        add_action( 'quick_edit_custom_box', [ $this, 'kbtfw_product_quick_edit_box' ], 10, 2 );
 
-        add_action('save_post', array($this, 'kbtfw_product_save_quick_edit_data'), 10, 2);
-        add_action('wp_ajax_manage_wp_posts_using_bulk_edit_kbtfw', array($this, 'manage_wp_posts_using_bulk_edit_kbtfw'));
+        add_action( 'save_post', [ $this, 'kbtfw_product_save_quick_edit_data' ], 10, 2 );
+        add_action( 'wp_ajax_manage_wp_posts_using_bulk_edit_kbtfw', [ $this, 'manage_wp_posts_using_bulk_edit_kbtfw' ] );
     }
 
-    public static function get_instance()
-    {
+    public static function get_instance() {
 
         // If the single instance hasn't been set, set it now.
-        if (null == self::$instance) {
-            self::$instance = new self;
+        if ( null == self::$instance ) {
+            self::$instance = new self();
         }
 
         return self::$instance;
     }
 
-    public function includedFiles()
-    {
-        include_once BKBKBTFW_DIR . 'includes/autoupdater/WpAutoUpdater.php';
-        include_once BKBKBTFW_DIR . 'includes/autoupdater/installer.php';
-        include_once BKBKBTFW_DIR . 'includes/autoupdater/updater.php';
-    }
-
-    public function kbtfw_version_update_admin_notice()
-    {
+    public function kbtfw_version_update_admin_notice() {
         echo '<div class="updated"><p>You need to download & install both '
             . '<b><a href="http://downloads.wordpress.org/plugin/woocommerce.zip" target="_blank">WooCommerce Plugin</a></b> && '
             . '<b><a href="https://1.envato.market/bkbm-wp" target="_blank">BWL Knowledge Base Manager Plugin</a></b> '
             . 'to use <b>KB Tab For WooCommerce - Knowledgebase Addon</b>. </p></div>';
     }
 
-    public function bkb_kbtfw_admin_enqueue_scripts($hook)
-    {
+    public function bkb_kbtfw_admin_enqueue_scripts( $hook ) {
 
         // We only load this JS script in product add/edit page.
 
-        $current_post_type = "";
+        $current_post_type = '';
 
-        if (isset($_GET['post_type']) && $_GET['post_type'] == "product") {
+        if ( isset( $_GET['post_type'] ) && $_GET['post_type'] == 'product' ) {
 
-            $current_post_type = "product";
-        } else if (isset($_GET['post']) && get_post_type($_GET['post']) === 'product') {
+            $current_post_type = 'product';
+        } elseif ( isset( $_GET['post'] ) && get_post_type( $_GET['post'] ) === 'product' ) {
 
-            $current_post_type = "product";
+            $current_post_type = 'product';
         } else {
 
-            $current_post_type = "";
+            $current_post_type = '';
         }
 
-        if ($current_post_type == "product") {
-            wp_enqueue_script($this->plugin_slug . '-admin', BKBKBTFW_PLUGIN_DIR . 'assets/scripts/admin.js', ['jquery'], BKB_kbtfw::VERSION, true);
+        if ( $current_post_type == 'product' ) {
+            wp_enqueue_script( $this->plugin_slug . '-admin', BKBKBTFW_PLUGIN_DIR . 'assets/scripts/admin.js', [ 'jquery' ], BKB_kbtfw::VERSION, true );
 
             wp_localize_script(
                 $this->plugin_slug . '-admin',
                 'BkbmKbtfwAdminData',
                 [
-                    'product_id' => BKBKBTFW_ADDON_CC_ID,
-                    'installation' => get_option(BKBKBTFW_ADDON_INSTALLATION_TAG)
+                    'product_id'   => BKBKBTFW_ADDON_CC_ID,
+                    'installation' => get_option( BKBKBTFW_ADDON_INSTALLATION_TAG ),
                 ]
             );
         } else {
@@ -109,32 +95,31 @@ class BKB_kbtfw_Admin
         }
     }
 
-    function kbtfw_cmb_framework()
-    {
+    function kbtfw_cmb_framework() {
 
-        $args = array(
-            'post_status' => 'publish',
-            'post_type' => $this->baseController->plugin_post_type,
-            'orderby' => 'title',
-            'order' => 'ASC',
-            'posts_per_page' => -1
-        );
+        $args = [
+            'post_status'    => 'publish',
+            'post_type'      => $this->baseController->plugin_post_type,
+            'orderby'        => 'title',
+            'order'          => 'ASC',
+            'posts_per_page' => -1,
+        ];
 
-        $loop = new WP_Query($args);
+        $loop = new WP_Query( $args );
 
         $kbftw_kb_post_ids = [];
 
-        if ($loop->have_posts()) :
+        if ( $loop->have_posts() ) :
 
-            while ($loop->have_posts()) :
+            while ( $loop->have_posts() ) :
 
                 $loop->the_post();
 
-                $bkb_title = ucfirst(get_the_title());
+                $bkb_title = ucfirst( get_the_title() );
 
                 $bkb_post_id = get_the_ID();
 
-                $kbftw_kb_post_ids[$bkb_post_id] = $bkb_title;
+                $kbftw_kb_post_ids[ $bkb_post_id ] = $bkb_title;
 
             endwhile;
 
@@ -142,247 +127,235 @@ class BKB_kbtfw_Admin
 
         wp_reset_query();
 
-        $custom_fields = array(
+        $custom_fields = [
 
-            'meta_box_id'           => 'cmb_bkb_woo_item_settings', // Unique id of meta box.
-            'meta_box_heading'  => 'Knowledgebase Item Settings', // That text will be show in meta box head section.
-            'post_type'               => 'product', // define post type. go to register_post_type method to view post_type name.        
-            'context'                   => 'normal',
-            'priority'                    => 'high',
-            'fields'                       => array(
+            'meta_box_id'      => 'cmb_bkb_woo_item_settings', // Unique id of meta box.
+            'meta_box_heading' => 'Knowledgebase Item Settings', // That text will be show in meta box head section.
+            'post_type'        => 'product', // define post type. go to register_post_type method to view post_type name.
+            'context'          => 'normal',
+            'priority'         => 'high',
+            'fields'           => [
 
-                'bkb_woo_tab_hide_status'  => array(
-                    'title'      => __('Hide Knowledge Base Tab?', 'bkb-kbtfw'),
-                    'id'         => 'bkb_woo_tab_hide_status',
-                    'name'    => 'bkb_woo_tab_hide_status',
-                    'type'      => 'select',
-                    'value'     => array(
-                        '1' => __('Yes', 'bkb-kbtfw'),
-                        '2' => __('No', 'bkb-kbtfw')
-                    ),
+                'bkb_woo_tab_hide_status' => [
+                    'title'         => __( 'Hide Knowledge Base Tab?', 'bkb-kbtfw' ),
+                    'id'            => 'bkb_woo_tab_hide_status',
+                    'name'          => 'bkb_woo_tab_hide_status',
+                    'type'          => 'select',
+                    'value'         => [
+                        '1' => __( 'Yes', 'bkb-kbtfw' ),
+                        '2' => __( 'No', 'bkb-kbtfw' ),
+                    ],
                     'default_value' => 2,
-                    'class'      => 'widefat'
-                ),
-                'kbftw_kb_post_ids'  => array(
-                    'title'      => __('Add Knowledgebase Items', 'bkb-kbtfw'),
-                    'id'         => 'kbftw_kb_post_ids',
-                    'name'    => 'kbftw_kb_post_ids',
-                    'type'      => 'repeatable_select',
-                    'value'     => '',
+                    'class'         => 'widefat',
+                ],
+                'kbftw_kb_post_ids' => [
+                    'title'         => __( 'Add Knowledgebase Items', 'bkb-kbtfw' ),
+                    'id'            => 'kbftw_kb_post_ids',
+                    'name'          => 'kbftw_kb_post_ids',
+                    'type'          => 'repeatable_select',
+                    'value'         => '',
                     'default_value' => $kbftw_kb_post_ids,
-                    'class'      => 'widefat',
+                    'class'         => 'widefat',
                     'btn_text'      => 'Add New KB',
-                    'label_text'      => 'KB Post',
-                    'field_type' => 'select'
-                ),
-            )
-        );
+                    'label_text'    => 'KB Post',
+                    'field_type'    => 'select',
+                ],
+            ],
+        ];
 
         // A new meta box will be created in KB add/edit page.
-        if (class_exists('BwlKbManager\\Init')) {
-            new CmbMetaBoxApi($custom_fields);
+        if ( class_exists( 'BwlKbManager\\Init' ) ) {
+            new CmbMetaBoxApi( $custom_fields );
         }
     }
 
-    function kbtfw_custom_column_header($columns)
-    {
+    function kbtfw_custom_column_header( $columns ) {
 
         return array_merge(
             $columns,
-            array(
-                'kbftw_kb_post_ids' => __('Total <br />KBs', 'bkb-kbtfw'),
-                'bkb_woo_tab_hide_status' => __('KB Tab <br />Status', 'bkb-kbtfw')
-            )
+            [
+                'kbftw_kb_post_ids'       => __( 'Total <br />KBs', 'bkb-kbtfw' ),
+                'bkb_woo_tab_hide_status' => __( 'KB Tab <br />Status', 'bkb-kbtfw' ),
+            ]
         );
     }
 
-    function kbtfw_display_custom_column($column)
-    {
+    function kbtfw_display_custom_column( $column ) {
 
         // Add A Custom Image Size For Admin Panel.
 
         global $post;
 
-        switch ($column) {
+        switch ( $column ) {
 
-        case 'kbftw_kb_post_ids':
+			case 'kbftw_kb_post_ids':
+				$kbftw_kb_post_ids = (int) count( apply_filters( 'filter_kbtfwc_content_data', get_post_meta( $post->ID, 'kbftw_kb_post_ids' ) ) );
+				echo '<div id="kbftw_kb_post_ids-' . $post->ID . '" >&nbsp;' . $kbftw_kb_post_ids . '</div>';
 
-            $kbftw_kb_post_ids = (int) count(apply_filters('filter_kbtfwc_content_data', get_post_meta($post->ID, 'kbftw_kb_post_ids')));
-            echo '<div id="kbftw_kb_post_ids-' . $post->ID . '" >&nbsp;' . $kbftw_kb_post_ids . '</div>';
+                break;
 
-            break;
+			case 'bkb_woo_tab_hide_status':
+				$bkb_woo_tab_hide_status = ( get_post_meta( $post->ID, 'bkb_woo_tab_hide_status', true ) == '' ) ? '' : get_post_meta( $post->ID, 'bkb_woo_tab_hide_status', true );
 
-        case 'bkb_woo_tab_hide_status':
+				// FAQ Display Status In Text.
 
-            $bkb_woo_tab_hide_status = (get_post_meta($post->ID, "bkb_woo_tab_hide_status", true) == "") ? "" : get_post_meta($post->ID, "bkb_woo_tab_hide_status", true);
+				$bkb_woo_tab_hide_status_in_text = ( $bkb_woo_tab_hide_status == 1 ) ? __( 'Hidden', 'bkb-kbtfw' ) : __( 'Visible', 'bkb-kbtfw' );
 
-            // FAQ Display Status In Text.
+				echo '<div id="bkb_woo_tab_hide_status-' . $post->ID . '" data-status_code="' . $bkb_woo_tab_hide_status . '" >' . $bkb_woo_tab_hide_status_in_text . '</div>';
 
-            $bkb_woo_tab_hide_status_in_text = ($bkb_woo_tab_hide_status == 1) ? __("Hidden", "bkb-kbtfw") : __("Visible", "bkb-kbtfw");
-
-            echo '<div id="bkb_woo_tab_hide_status-' . $post->ID . '" data-status_code="' . $bkb_woo_tab_hide_status . '" >' . $bkb_woo_tab_hide_status_in_text . '</div>';
-
-            break;
+                break;
         }
     }
 
     /* ------------------------------ Bulk & Quick Edit Section --------------------------------- */
 
-    function kbtfw_product_quick_edit_box($column_name, $post_type)
-    {
+    function kbtfw_product_quick_edit_box( $column_name, $post_type ) {
 
         global $post;
 
-        switch ($post_type) {
+        switch ( $post_type ) {
 
-        case $post_type:
+			case $post_type:
+				switch ( $column_name ) {
 
-            switch ($column_name) {
+					case 'bkb_woo_tab_hide_status':
+						$bkb_woo_tab_hide_status_val = get_post_meta( $post->ID, 'bkb_woo_tab_hide_status', true );
 
-            case 'bkb_woo_tab_hide_status':
+						$bkb_woo_tab_hide_status = ( $bkb_woo_tab_hide_status_val == '' ) ? '' : $bkb_woo_tab_hide_status_val;
 
-                $bkb_woo_tab_hide_status_val = get_post_meta($post->ID, "bkb_woo_tab_hide_status", true);
-
-                $bkb_woo_tab_hide_status = ($bkb_woo_tab_hide_status_val == "") ? "" : $bkb_woo_tab_hide_status_val;
-
-                ?>
+						?>
 
 
 <fieldset class="inline-edit-col-left">
-  <div class="inline-edit-col">
+    <div class="inline-edit-col">
     <div class="inline-edit-group">
-      <label class="alignleft">
+        <label class="alignleft">
 
-        <span class="checkbox-title"><?php _e('Hide KB Tab?', 'bkb-kbtfw'); ?></span>
+        <span class="checkbox-title"><?php _e( 'Hide KB Tab?', 'bkb-kbtfw' ); ?></span>
         <select name="bkb_woo_tab_hide_status">
-          <option value="3"><?php _e('- No Change -', 'bkb-kbtfw'); ?></option>
-          <option value="1"><?php _e('Yes', 'bkb-kbtfw'); ?></option>
-          <option value="2"><?php _e('No', 'bkb-kbtfw'); ?></option>
+            <option value="3"><?php _e( '- No Change -', 'bkb-kbtfw' ); ?></option>
+            <option value="1"><?php _e( 'Yes', 'bkb-kbtfw' ); ?></option>
+            <option value="2"><?php _e( 'No', 'bkb-kbtfw' ); ?></option>
         </select>
-      </label>
+        </label>
 
     </div>
-  </div>
+    </div>
 </fieldset>
 
 
-                <?php
-                break;
-            }
+						<?php
+					    break;
+				}
 
-            break;
+                break;
         }
     }
 
-    function kbtfw_product_save_quick_edit_data($post_id, $post)
-    {
+    function kbtfw_product_save_quick_edit_data( $post_id, $post ) {
 
         // pointless if $_POST is empty (this happens on bulk edit)
-        if (empty($_POST)) {
+        if ( empty( $_POST ) ) {
             return $post_id;
         }
 
         // verify quick edit nonce
-        if (isset($_POST['_inline_edit']) && !wp_verify_nonce($_POST['_inline_edit'], 'inlineeditnonce')) {
+        if ( isset( $_POST['_inline_edit'] ) && ! wp_verify_nonce( $_POST['_inline_edit'], 'inlineeditnonce' ) ) {
             return $post_id;
         }
 
         // don't save for autosave
-        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
             return $post_id;
         }
 
         // dont save for revisions
-        if (isset($post->post_type) && $post->post_type == 'revision') {
+        if ( isset( $post->post_type ) && $post->post_type == 'revision' ) {
             return $post_id;
         }
 
-        switch ($post->post_type) {
+        switch ( $post->post_type ) {
 
-        case $post->post_type:
+			case $post->post_type:
+				/**
+				 * Because this action is run in several places, checking for the array key
+				 * keeps WordPress from editing data that wasn't in the form, i.e. if you had
+				 * this post meta on your "Quick Edit" but didn't have it on the "Edit Post" screen.
+				 */
+				$custom_fields = [ 'bkb_woo_tab_hide_status' ];
 
-            /**
-             * Because this action is run in several places, checking for the array key
-             * keeps WordPress from editing data that wasn't in the form, i.e. if you had
-             * this post meta on your "Quick Edit" but didn't have it on the "Edit Post" screen.
-             */
-            $custom_fields = array('bkb_woo_tab_hide_status');
+				foreach ( $custom_fields as $field ) {
 
-            foreach ($custom_fields as $field) {
+					if ( array_key_exists( $field, $_POST ) ) {
 
-                if (array_key_exists($field, $_POST)) {
+						update_post_meta( $post_id, $field, $_POST[ $field ] );
+					}
+				}
 
-                    update_post_meta($post_id, $field, $_POST[$field]);
-                }
-            }
-
-            break;
+                break;
         }
     }
 
-    function kbtfw_product_bulk_edit_box($column_name, $post_type)
-    {
+    function kbtfw_product_bulk_edit_box( $column_name, $post_type ) {
 
         global $post;
 
-        switch ($post_type) {
+        switch ( $post_type ) {
 
-        case $post_type:
+			case $post_type:
+				switch ( $column_name ) {
 
-            switch ($column_name) {
-
-            case 'bkb_woo_tab_hide_status':
-                ?>
+					case 'bkb_woo_tab_hide_status':
+						?>
 <fieldset class="inline-edit-col-right">
-  <div class="inline-edit-col">
+    <div class="inline-edit-col">
     <div class="inline-edit-group">
-      <label class="alignleft">
-        <span class="checkbox-title"><?php _e('Hide FAQ Tab?', 'bkb-kbtfw'); ?></span>
+        <label class="alignleft">
+        <span class="checkbox-title"><?php _e( 'Hide FAQ Tab?', 'bkb-kbtfw' ); ?></span>
         <select name="bkb_woo_tab_hide_status">
-          <option value="3"><?php _e('- No Change -', 'bkb-kbtfw'); ?></option>
-          <option value="1"><?php _e('Yes', 'bkb-kbtfw'); ?></option>
-          <option value="2"><?php _e('No', 'bkb-kbtfw'); ?></option>
+            <option value="3"><?php _e( '- No Change -', 'bkb-kbtfw' ); ?></option>
+            <option value="1"><?php _e( 'Yes', 'bkb-kbtfw' ); ?></option>
+            <option value="2"><?php _e( 'No', 'bkb-kbtfw' ); ?></option>
         </select>
-      </label>
+        </label>
     </div>
-  </div>
+    </div>
 </fieldset>
 
-                <?php
-                break;
-            }
+						<?php
+					    break;
+				}
 
-            break;
+                break;
         }
     }
 
-    function manage_wp_posts_using_bulk_edit_kbtfw()
-    {
+    function manage_wp_posts_using_bulk_edit_kbtfw() {
 
         // we need the post IDs
-        $post_ids = (isset($_POST['post_ids']) && !empty($_POST['post_ids'])) ? $_POST['post_ids'] : null;
+        $post_ids = ( isset( $_POST['post_ids'] ) && ! empty( $_POST['post_ids'] ) ) ? $_POST['post_ids'] : null;
 
         // if we have post IDs
-        if (!empty($post_ids) && is_array($post_ids)) {
+        if ( ! empty( $post_ids ) && is_array( $post_ids ) ) {
 
             // Get the custom fields
 
-            $custom_fields = array('bkb_woo_tab_hide_status');
+            $custom_fields = [ 'bkb_woo_tab_hide_status' ];
 
-            foreach ($custom_fields as $field) {
+            foreach ( $custom_fields as $field ) {
 
                 // if it has a value, doesn't update if empty on bulk
-                if (isset($_POST[$field]) && trim($_POST[$field]) != "") {
+                if ( isset( $_POST[ $field ] ) && trim( $_POST[ $field ] ) != '' ) {
 
                     // update for each post ID
-                    foreach ($post_ids as $post_id) {
+                    foreach ( $post_ids as $post_id ) {
 
-                        if ($_POST[$field] == 2) {
+                        if ( $_POST[ $field ] == 2 ) {
 
-                            update_post_meta($post_id, $field, "");
-                        } elseif ($_POST[$field] == 1) {
+                            update_post_meta( $post_id, $field, '' );
+                        } elseif ( $_POST[ $field ] == 1 ) {
 
-                            update_post_meta($post_id, $field, 1);
+                            update_post_meta( $post_id, $field, 1 );
                         } else {
                             // do nothing
                         }
