@@ -85,9 +85,9 @@ class Init {
 			// Base\IncludePluginFiles::class,
 			// Base\AdminEnqueue::class,
 			// Base\FrontendInlineJs::class,
-			// Base\PluginUpdate::class,
+			Base\PluginUpdate::class,
 			Base\Language::class,
-			// Base\AdminAjaxHandlers::class,
+			Base\AdminAjaxHandlers::class,
 
 		];
 		return $classes;

@@ -1,12 +1,12 @@
 <?php
-namespace BKBRKB\Base;
+namespace KTFWC\Base;
 
 use Xenioushk\BwlPluginApi\Api\AjaxHandlers\AjaxHandlersApi;
-use BKBRKB\Callbacks\AdminAjaxHandlers\PluginInstallationCb;
+use KTFWC\Callbacks\AdminAjaxHandlers\PluginInstallationCb;
 /**
  * Class for admin ajax handlers.
  *
- * @package BKBRKB
+ * @package KTFWC
  */
 class AdminAjaxHandlers {
 
@@ -22,7 +22,7 @@ class AdminAjaxHandlers {
 		// If do so, you need to change in js file too.
 		$ajax_requests = [
 			[
-				'tag'      => 'bkbm_rkbur_installation_counter',
+				'tag'      => 'bkbm_kbtfw_installation_counter',
 				'callback' => [ $plugin_installation_cb, 'save' ],
 			],
 		];
