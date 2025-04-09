@@ -81,11 +81,11 @@ class Init {
 	 */
 	private static function get_base_classes() {
 		$classes = [
-			// Base\Enqueue::class,
+			Base\Enqueue::class,
 			// Base\CustomTheme::class,
 			// Base\IncludePluginFiles::class,
 			// Base\AdminEnqueue::class,
-			// Base\FrontendInlineJs::class,
+			Base\FrontendInlineJs::class,
 			Base\PluginUpdate::class,
 			Base\Language::class,
 			Base\AdminAjaxHandlers::class,

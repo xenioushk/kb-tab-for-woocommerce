@@ -1,10 +1,10 @@
 <?php
-namespace BKBRKB\Base;
+namespace KTFWC\Base;
 
 /**
  * Class for registering the plugin scripts and styles.
  *
- * @package BKBRKB
+ * @package KTFWC
  */
 class Enqueue {
 
@@ -21,7 +21,7 @@ class Enqueue {
 	public function __construct() {
 		// Frontend script slug.
 		// This is required to hook the loclization texts.
-		$this->frontend_script_slug = 'bkb_rkb-frontend';
+		$this->frontend_script_slug = 'bkb-kbtfw';
 	}
 
 	/**
@@ -38,11 +38,28 @@ class Enqueue {
 	public function get_the_styles() {
 
 		wp_enqueue_style(
-            $this->frontend_script_slug,
-            BKBRKB_PLUGIN_STYLES_ASSETS_DIR . 'frontend.css',
-            [],
-            BKBRKB_PLUGIN_VERSION
+			$this->frontend_script_slug . '-animate',
+			KTFWC_PLUGIN_LIBS_DIR . 'animate/animate.css',
+			[],
+			KTFWC_PLUGIN_VERSION
 		);
+
+		wp_enqueue_style(
+            $this->frontend_script_slug,
+            KTFWC_PLUGIN_STYLES_ASSETS_DIR . 'frontend.css',
+            [],
+            KTFWC_PLUGIN_VERSION
+		);
+
+		if ( is_rtl() ) {
+
+			wp_enqueue_style(
+				$this->frontend_script_slug . '-rtl',
+				KTFWC_PLUGIN_STYLES_ASSETS_DIR . 'frontend_rtl.css',
+				[],
+				KTFWC_PLUGIN_VERSION
+			);
+		}
 	}
 
 	/**
@@ -54,9 +71,9 @@ class Enqueue {
 
 		wp_enqueue_script(
             $this->frontend_script_slug,
-            BKBRKB_PLUGIN_SCRIPTS_ASSETS_DIR . 'frontend.js',
+            KTFWC_PLUGIN_SCRIPTS_ASSETS_DIR . 'frontend.js',
             [ 'jquery' ],
-            BKBRKB_PLUGIN_VERSION,
+            KTFWC_PLUGIN_VERSION,
             true
         );
 
@@ -71,12 +88,12 @@ class Enqueue {
 
 		// Localize scripts.
 		// Frontend.
-		// Access data: KafwpbFrontendData.version
+		// Access data: KtfwcFrontendData.version
 		wp_localize_script(
             $this->frontend_script_slug,
-            'KafwpbFrontendData',
+            'KtfwcFrontendData',
             [
-				'version' => BKBRKB_PLUGIN_VERSION,
+				'version' => KTFWC_PLUGIN_VERSION,
             ]
 		);
 	}
