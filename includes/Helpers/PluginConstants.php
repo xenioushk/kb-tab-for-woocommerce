@@ -70,11 +70,11 @@ class PluginConstants {
 		$plugin_data = get_plugin_data( KTFWC_PLUGIN_DIR . '/' . KTFWC_PLUGIN_ROOT_FILE );
 
 		define( 'KTFWC_PLUGIN_VERSION', $plugin_data['Version'] ?? '1.0.0' );
-		define( 'KTFWC_PLUGIN_TITLE', $plugin_data['Name'] ?? 'Restrict KB Access by User Role' );
+		define( 'KTFWC_PLUGIN_TITLE', $plugin_data['Name'] ?? 'KB Tab For WooCommerce Addon' );
 		define( 'KTFWC_TRANSLATION_DIR', $plugin_data['DomainPath'] ?? '/languages/' );
 		define( 'KTFWC_TEXT_DOMAIN', $plugin_data['TextDomain'] ?? '' );
 
-		define( 'KTFWC_PLUGIN_FOLDER', 'restrict-kb-by-user-role' );
+		define( 'KTFWC_PLUGIN_FOLDER', 'kb-tab-for-woocommerce' );
 		define( 'KTFWC_PLUGIN_CURRENT_VERSION', KTFWC_PLUGIN_VERSION );
 		define( 'KTFWC_PLUGIN_POST_TYPE', 'bwl_kb' );
 		define( 'KTFWC_PLUGIN_TAXONOMY_CAT', 'bkb_category' );
@@ -85,7 +85,7 @@ class PluginConstants {
 	 * Set the plugin paths constants.
 	 */
 	private static function set_paths_constants() {
-		define( 'KTFWC_PLUGIN_ROOT_FILE', 'restrict-kb-by-user-role.php' );
+		define( 'KTFWC_PLUGIN_ROOT_FILE', 'kb-tab-for-woocommerce.php' );
 		define( 'KTFWC_PLUGIN_DIR', self::get_plugin_path() );
 		define( 'KTFWC_PLUGIN_FILE_PATH', KTFWC_PLUGIN_DIR );
 		define( 'KTFWC_PLUGIN_URL', self::get_plugin_url() );
