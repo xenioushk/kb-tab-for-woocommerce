@@ -29,6 +29,7 @@ class Init {
 			// 'meta'    => self::get_meta_classes(),
 			// 'actions' => self::get_action_classes(),
 			// 'filters' => self::get_filter_classes(),
+			// 'shortcodes' => self::get_shortcode_classes(),
 			// 'notices'  => self::get_notices_classes(),
 		];
 
@@ -144,6 +145,18 @@ class Init {
 			Controllers\Filters\RKBFilters::class,
 			Controllers\Filters\Admin\RKBFilters::class,
 			Controllers\Filters\Admin\CustomColumns::class,
+		];
+		return $classes;
+	}
+	/**
+	 * Get Shortcode classes.
+	 *
+	 * @return array
+	 */
+	private static function get_shortcode_classes() {
+
+		$classes = [
+			Controllers\Shortcodes\AddonShortcodes::class,
 		];
 		return $classes;
 	}
