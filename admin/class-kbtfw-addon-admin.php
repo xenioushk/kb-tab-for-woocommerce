@@ -61,9 +61,9 @@ class BKB_kbtfw_Admin
 
     public function includedFiles()
     {
-        require_once(BKBKBTFW_DIR . 'includes/autoupdater/WpAutoUpdater.php');
-        require_once(BKBKBTFW_DIR . 'includes/autoupdater/installer.php');
-        require_once(BKBKBTFW_DIR . 'includes/autoupdater/updater.php');
+        include_once BKBKBTFW_DIR . 'includes/autoupdater/WpAutoUpdater.php';
+        include_once BKBKBTFW_DIR . 'includes/autoupdater/installer.php';
+        include_once BKBKBTFW_DIR . 'includes/autoupdater/updater.php';
     }
 
     public function kbtfw_version_update_admin_notice()
@@ -93,7 +93,7 @@ class BKB_kbtfw_Admin
         }
 
         if ($current_post_type == "product") {
-            wp_enqueue_script($this->plugin_slug . '-admin', BKBKBTFW_PLUGIN_DIR . 'assets/scripts/admin.js', ['jquery'], BKB_kbtfw::VERSION, TRUE);
+            wp_enqueue_script($this->plugin_slug . '-admin', BKBKBTFW_PLUGIN_DIR . 'assets/scripts/admin.js', ['jquery'], BKB_kbtfw::VERSION, true);
 
             wp_localize_script(
                 $this->plugin_slug . '-admin',
@@ -205,24 +205,24 @@ class BKB_kbtfw_Admin
 
         switch ($column) {
 
-            case 'kbftw_kb_post_ids':
+        case 'kbftw_kb_post_ids':
 
-                $kbftw_kb_post_ids = (int) count(apply_filters('filter_kbtfwc_content_data', get_post_meta($post->ID, 'kbftw_kb_post_ids')));
-                echo '<div id="kbftw_kb_post_ids-' . $post->ID . '" >&nbsp;' . $kbftw_kb_post_ids . '</div>';
+            $kbftw_kb_post_ids = (int) count(apply_filters('filter_kbtfwc_content_data', get_post_meta($post->ID, 'kbftw_kb_post_ids')));
+            echo '<div id="kbftw_kb_post_ids-' . $post->ID . '" >&nbsp;' . $kbftw_kb_post_ids . '</div>';
 
-                break;
+            break;
 
-            case 'bkb_woo_tab_hide_status':
+        case 'bkb_woo_tab_hide_status':
 
-                $bkb_woo_tab_hide_status = (get_post_meta($post->ID, "bkb_woo_tab_hide_status", true) == "") ? "" : get_post_meta($post->ID, "bkb_woo_tab_hide_status", true);
+            $bkb_woo_tab_hide_status = (get_post_meta($post->ID, "bkb_woo_tab_hide_status", true) == "") ? "" : get_post_meta($post->ID, "bkb_woo_tab_hide_status", true);
 
-                // FAQ Display Status In Text.
+            // FAQ Display Status In Text.
 
-                $bkb_woo_tab_hide_status_in_text = ($bkb_woo_tab_hide_status == 1) ? __("Hidden", "bkb-kbtfw") : __("Visible", "bkb-kbtfw");
+            $bkb_woo_tab_hide_status_in_text = ($bkb_woo_tab_hide_status == 1) ? __("Hidden", "bkb-kbtfw") : __("Visible", "bkb-kbtfw");
 
-                echo '<div id="bkb_woo_tab_hide_status-' . $post->ID . '" data-status_code="' . $bkb_woo_tab_hide_status . '" >' . $bkb_woo_tab_hide_status_in_text . '</div>';
+            echo '<div id="bkb_woo_tab_hide_status-' . $post->ID . '" data-status_code="' . $bkb_woo_tab_hide_status . '" >' . $bkb_woo_tab_hide_status_in_text . '</div>';
 
-                break;
+            break;
         }
     }
 
@@ -235,42 +235,42 @@ class BKB_kbtfw_Admin
 
         switch ($post_type) {
 
-            case $post_type:
+        case $post_type:
 
-                switch ($column_name) {
+            switch ($column_name) {
 
-                    case 'bkb_woo_tab_hide_status':
+            case 'bkb_woo_tab_hide_status':
 
-                        $bkb_woo_tab_hide_status_val = get_post_meta($post->ID, "bkb_woo_tab_hide_status", true);
+                $bkb_woo_tab_hide_status_val = get_post_meta($post->ID, "bkb_woo_tab_hide_status", true);
 
-                        $bkb_woo_tab_hide_status = ($bkb_woo_tab_hide_status_val == "") ? "" : $bkb_woo_tab_hide_status_val;
+                $bkb_woo_tab_hide_status = ($bkb_woo_tab_hide_status_val == "") ? "" : $bkb_woo_tab_hide_status_val;
 
-?>
-
-
-                        <fieldset class="inline-edit-col-left">
-                            <div class="inline-edit-col">
-                                <div class="inline-edit-group">
-                                    <label class="alignleft">
-
-                                        <span class="checkbox-title"><?php _e('Hide KB Tab?', 'bkb-kbtfw'); ?></span>
-                                        <select name="bkb_woo_tab_hide_status">
-                                            <option value="3"><?php _e('- No Change -', 'bkb-kbtfw'); ?></option>
-                                            <option value="1"><?php _e('Yes', 'bkb-kbtfw'); ?></option>
-                                            <option value="2"><?php _e('No', 'bkb-kbtfw'); ?></option>
-                                        </select>
-                                    </label>
-
-                                </div>
-                            </div>
-                        </fieldset>
+                ?>
 
 
-                    <?php
-                        break;
-                }
+<fieldset class="inline-edit-col-left">
+  <div class="inline-edit-col">
+    <div class="inline-edit-group">
+      <label class="alignleft">
 
+        <span class="checkbox-title"><?php _e('Hide KB Tab?', 'bkb-kbtfw'); ?></span>
+        <select name="bkb_woo_tab_hide_status">
+          <option value="3"><?php _e('- No Change -', 'bkb-kbtfw'); ?></option>
+          <option value="1"><?php _e('Yes', 'bkb-kbtfw'); ?></option>
+          <option value="2"><?php _e('No', 'bkb-kbtfw'); ?></option>
+        </select>
+      </label>
+
+    </div>
+  </div>
+</fieldset>
+
+
+                <?php
                 break;
+            }
+
+            break;
         }
     }
 
@@ -278,41 +278,45 @@ class BKB_kbtfw_Admin
     {
 
         // pointless if $_POST is empty (this happens on bulk edit)
-        if (empty($_POST))
+        if (empty($_POST)) {
             return $post_id;
+        }
 
         // verify quick edit nonce
-        if (isset($_POST['_inline_edit']) && !wp_verify_nonce($_POST['_inline_edit'], 'inlineeditnonce'))
+        if (isset($_POST['_inline_edit']) && !wp_verify_nonce($_POST['_inline_edit'], 'inlineeditnonce')) {
             return $post_id;
+        }
 
         // don't save for autosave
-        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
             return $post_id;
+        }
 
         // dont save for revisions
-        if (isset($post->post_type) && $post->post_type == 'revision')
+        if (isset($post->post_type) && $post->post_type == 'revision') {
             return $post_id;
+        }
 
         switch ($post->post_type) {
 
-            case $post->post_type:
+        case $post->post_type:
 
-                /**
-                 * Because this action is run in several places, checking for the array key
-                 * keeps WordPress from editing data that wasn't in the form, i.e. if you had
-                 * this post meta on your "Quick Edit" but didn't have it on the "Edit Post" screen.
-                 */
-                $custom_fields = array('bkb_woo_tab_hide_status');
+            /**
+             * Because this action is run in several places, checking for the array key
+             * keeps WordPress from editing data that wasn't in the form, i.e. if you had
+             * this post meta on your "Quick Edit" but didn't have it on the "Edit Post" screen.
+             */
+            $custom_fields = array('bkb_woo_tab_hide_status');
 
-                foreach ($custom_fields as $field) {
+            foreach ($custom_fields as $field) {
 
-                    if (array_key_exists($field, $_POST)) {
+                if (array_key_exists($field, $_POST)) {
 
-                        update_post_meta($post_id, $field, $_POST[$field]);
-                    }
+                    update_post_meta($post_id, $field, $_POST[$field]);
                 }
+            }
 
-                break;
+            break;
         }
     }
 
@@ -323,32 +327,32 @@ class BKB_kbtfw_Admin
 
         switch ($post_type) {
 
-            case $post_type:
+        case $post_type:
 
-                switch ($column_name) {
+            switch ($column_name) {
 
-                    case 'bkb_woo_tab_hide_status':
-                    ?>
-                        <fieldset class="inline-edit-col-right">
-                            <div class="inline-edit-col">
-                                <div class="inline-edit-group">
-                                    <label class="alignleft">
-                                        <span class="checkbox-title"><?php _e('Hide FAQ Tab?', 'bkb-kbtfw'); ?></span>
-                                        <select name="bkb_woo_tab_hide_status">
-                                            <option value="3"><?php _e('- No Change -', 'bkb-kbtfw'); ?></option>
-                                            <option value="1"><?php _e('Yes', 'bkb-kbtfw'); ?></option>
-                                            <option value="2"><?php _e('No', 'bkb-kbtfw'); ?></option>
-                                        </select>
-                                    </label>
-                                </div>
-                            </div>
-                        </fieldset>
+            case 'bkb_woo_tab_hide_status':
+                ?>
+<fieldset class="inline-edit-col-right">
+  <div class="inline-edit-col">
+    <div class="inline-edit-group">
+      <label class="alignleft">
+        <span class="checkbox-title"><?php _e('Hide FAQ Tab?', 'bkb-kbtfw'); ?></span>
+        <select name="bkb_woo_tab_hide_status">
+          <option value="3"><?php _e('- No Change -', 'bkb-kbtfw'); ?></option>
+          <option value="1"><?php _e('Yes', 'bkb-kbtfw'); ?></option>
+          <option value="2"><?php _e('No', 'bkb-kbtfw'); ?></option>
+        </select>
+      </label>
+    </div>
+  </div>
+</fieldset>
 
-<?php
-                        break;
-                }
-
+                <?php
                 break;
+            }
+
+            break;
         }
     }
 
@@ -356,7 +360,7 @@ class BKB_kbtfw_Admin
     {
 
         // we need the post IDs
-        $post_ids = (isset($_POST['post_ids']) && !empty($_POST['post_ids'])) ? $_POST['post_ids'] : NULL;
+        $post_ids = (isset($_POST['post_ids']) && !empty($_POST['post_ids'])) ? $_POST['post_ids'] : null;
 
         // if we have post IDs
         if (!empty($post_ids) && is_array($post_ids)) {

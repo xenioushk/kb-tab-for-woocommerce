@@ -5,9 +5,14 @@ stages:
   - build
   - staging
   - production
+  - cleanup # Added cleanup stage
 
 before_script:
-  - sudo apt-get install -y lftp && sudo apt-get install -y npm && sudo apt-get install -y curl
+  - sudo apt-get update
+  - sudo apt-get install -y lftp curl npm php-cli unzip
+  - mkdir -p $HOME/bin
+  - curl -sS https://getcomposer.org/installer | php -- --install-dir=$HOME/bin --filename=composer
+  - export PATH="$HOME/bin:$PATH"
 
 build:
   stage: build
@@ -19,19 +24,18 @@ build:
     - staging
     - production
   script:
+    - composer install --no-dev --optimize-autoloader
     - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
     - export NVM_DIR="$HOME/.nvm"
     - source "$NVM_DIR/nvm.sh"
-    - nvm install 16.20.0
-    - npm -v #NPM Version.
-    - node -v #"Node Version."
-    - echo "Installing Packages."
+    - nvm install
+    - nvm use
     - npm install
-    - echo "Building artifacts and assets."
     - npm run build
   artifacts:
     paths:
-      - $BUILD_DIR/assets # Replace with the actual path to your build directory
+      - $BUILD_DIR/assets
+      - $BUILD_DIR/vendor
 
 staging:
   stage: staging
@@ -45,7 +49,7 @@ staging:
   script:
     - pwd
     - echo "Updating plugin files.."
-    - lftp -e "set ssl:verify-certificate no; open $FTP_SHOST; user $FTP_SUSERNAME $FTP_SPASSWORD; mirror -X .* -X .*/ --reverse --verbose $BUILD_DIR /wpplugins/$DEPLOY_DIR; bye"
+    - lftp -e "set ssl:verify-certificate no; open $FTP_SHOST; user $FTP_SUSERNAME $FTP_SPASSWORD; mirror -X .* -X .*/ --reverse --verbose --delete $BUILD_DIR /wpplugins/$DEPLOY_DIR; bye"
 
 production:
   stage: production
@@ -59,4 +63,19 @@ production:
   script:
     - pwd
     - echo "Updating plugin files.."
-    - lftp -e "set ssl:verify-certificate no; open $FTP_HOST; user $FTP_PUSERNAME $FTP_PPASSWORD; mirror -X .* -X .*/ --reverse --verbose $BUILD_DIR /wpplugin/$DEPLOY_DIR; bye"
+    - lftp -e "set ssl:verify-certificate no; open $FTP_HOST; user $FTP_PUSERNAME $FTP_PPASSWORD; mirror -X .* -X .*/ --reverse --verbose --delete $BUILD_DIR /wpplugin/$DEPLOY_DIR; bye"
+
+# Cleanup job added to remove unnecessary files after deployment
+cleanup:
+  stage: cleanup # Stage after production
+  only:
+    - production
+    - staging
+  tags:
+    - ci
+    - devops
+  script:
+    - echo "Cleaning up temporary files and artifacts..."
+    - rm -rf $BUILD_DIR/assets # Adjust this to your specific cleanup needs
+    - rm -rf $BUILD_DIR/vendor # Adjust this to your specific cleanup needs
+    - echo "Cleanup complete."
