@@ -10,7 +10,10 @@
     "start:hot": "wp-scripts start --hot",
     "plugin-zip": "wp-scripts plugin-zip",
     "make-pot": "wp i18n make-pot . languages/kb-tab-for-woocommerce.pot --slug=kb-tab-for-woocommerce --domain=bkb-kbtfw --exclude=node_modules,src,vendor",
-    "make-json": "wp i18n make-json languages/ --no-purge"
+    "make-json": "wp i18n make-json languages/ --no-purge",
+    "lint:php": "vendor/bin/phpcs",
+    "lint:phpn": "vendor/bin/phpcs -n",
+    "lint:php:fix": "vendor/bin/phpcbf"
   },
   "author": "Md Mahbub Alam Khan <hkhan.cse@gmail.com> (https://bluewindlab.net/)",
   "license": "MIT",

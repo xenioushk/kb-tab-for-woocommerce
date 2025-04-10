@@ -93,12 +93,12 @@ var bkb_woo_theme = '<?php echo $bkb_woo_theme; ?>',
     bkb_rtl_mode = '<?php echo $bkb_rtl_mode; ?>',
     bkb_pagination_status = '<?php echo $bkb_pagination_status; ?>',
     bkb_items_per_page = '<?php echo $bkb_items_per_page; ?>',
-    bkb_acc_search_text = '<?php _e( 'Search!', 'bkb-kbtfw' ); ?>',
-    bkb_acc_msg_item_found = '<?php _e( ' Item(s) Found !', 'bkb-kbtfw' ); ?>',
-    bkb_acc_msg_no_result = '<?php _e( 'Nothing Found !', 'bkb-kbtfw' ); ?>',
-    string_singular_page = '<?php _e( 'Page', 'bkb-kbtfw' ); ?>',
-    string_plural_page = '<?php _e( 'Pages', 'bkb-kbtfw' ); ?>',
-    string_total = '<?php _e( 'Total', 'bkb-kbtfw' ); ?>';
+    bkb_acc_search_text = '<?php esc_html_e( 'Search!', 'bkb-kbtfw' ); ?>',
+    bkb_acc_msg_item_found = '<?php esc_html_e( ' Item(s) Found !', 'bkb-kbtfw' ); ?>',
+    bkb_acc_msg_no_result = '<?php esc_html_e( 'Nothing Found !', 'bkb-kbtfw' ); ?>',
+    string_singular_page = '<?php esc_html_e( 'Page', 'bkb-kbtfw' ); ?>',
+    string_plural_page = '<?php esc_html_e( 'Pages', 'bkb-kbtfw' ); ?>',
+    string_total = '<?php esc_html_e( 'Total', 'bkb-kbtfw' ); ?>';
 </script>
 
 		<?php

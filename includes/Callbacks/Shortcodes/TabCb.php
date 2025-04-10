@@ -89,7 +89,7 @@ class TabCb {
 
     else :
 
-        $output .= '<p>' . __( 'No Knowledge Base Post Found!', 'bwl_kb' ) . '</p>';
+        $output .= '<p>' . esc_html__( 'No Knowledge Base Post Found!', 'bwl_kb' ) . '</p>';
 
     endif;
 

@@ -40,11 +40,11 @@ class QuickEditCb {
     <div class="inline-edit-group">
         <label class="alignleft">
 
-        <span class="checkbox-title"><?php _e( 'Hide KB Tab?', 'bkb-kbtfw' ); ?></span>
+        <span class="checkbox-title"><?php esc_html_e( 'Hide KB Tab?', 'bkb-kbtfw' ); ?></span>
         <select name="bkb_woo_tab_hide_status">
-            <option value="3"><?php _e( '- No Change -', 'bkb-kbtfw' ); ?></option>
-            <option value="1"><?php _e( 'Yes', 'bkb-kbtfw' ); ?></option>
-            <option value="2"><?php _e( 'No', 'bkb-kbtfw' ); ?></option>
+            <option value="3"><?php esc_html_e( '- No Change -', 'bkb-kbtfw' ); ?></option>
+            <option value="1"><?php esc_html_e( 'Yes', 'bkb-kbtfw' ); ?></option>
+            <option value="2"><?php esc_html_e( 'No', 'bkb-kbtfw' ); ?></option>
         </select>
         </label>
 

@@ -6,7 +6,7 @@ use BwlKbManager\Api\CmbMetaBoxApi;
 use WP_Query;
 
 /**
- * Class for creating a custom meta box.
+ * Class for plugin custom meta box.
  *
  * @package KTFWC
  */
@@ -21,7 +21,6 @@ class KtfwcCmb {
         add_action( 'admin_init', [ $this, 'init_ktwfc_cmb' ] );
     }
 
-
     /**
      * Initialize the meta box.
      *
@@ -31,8 +30,8 @@ class KtfwcCmb {
 
         $custom_fields = [
 
-            'meta_box_id'      => 'cmb_bkb_woo_item_settings', // Unique id of meta box.
-            'meta_box_heading' => 'Knowledgebase Item Settings', // That text will be show in meta box head section.
+            'meta_box_id'      => 'cmb_bkb_woo_item_settings', // Unique id
+            'meta_box_heading' => 'Knowledgebase Item Settings',
             'post_type'        => 'product',
             'context'          => 'normal',
             'priority'         => 'high',

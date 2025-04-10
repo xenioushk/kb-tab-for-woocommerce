@@ -54,13 +54,6 @@ class IncludePluginFiles {
 	 */
 	private function set_frontend_files() {
 
-		// example
-		// $frontend_files = [
-		// 'includes/bptm-email-template',
-		// 'includes/bwl-pm-helper',
-		// 'includes/bwl-sql-helper',
-		// ];
-
 		$frontend_files = [];
 
 		return $frontend_files;
@@ -70,9 +63,7 @@ class IncludePluginFiles {
 	 * Set the admin files.
 	 */
 	private function set_admin_files() {
-		$admin_files = [
-			'includes/Cmb/RkbCmb',
-		];
+		$admin_files = [];
 		return $admin_files;
 	}
 }

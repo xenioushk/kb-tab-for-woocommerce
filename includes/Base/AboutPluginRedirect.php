@@ -1,10 +1,10 @@
 <?php
-namespace KAFWPB\Base;
+namespace KTFWC\Base;
 
 /**
  * Class for plucin redirection to about page.
  *
- * @package KAFWPB
+ * @package KTFWC
  */
 class AboutPluginRedirect {
 

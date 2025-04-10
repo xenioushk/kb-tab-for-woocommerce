@@ -19,23 +19,22 @@ class ProductTabCb {
 	 * @return array
 	 */
 	public function get_the_tab( $tabs ) {
-		// return $tabs;
 
 		global $product;
 
 		// Get Data From Option Panel Settings.
 		$bkb_data          = PluginConstants::$plugin_options;
 		$bkb_auto_hide_tab = 1; // Enable Auto hide
-		$bkb_tab_title     = $bkb_data['bkb_woo_tab_title'] ?? __( 'Knowledge Base ', 'bkb-kbtfw' ); // Set the title of Knowledgebase Tab.
+		$bkb_tab_title     = $bkb_data['bkb_woo_tab_title'] ?? esc_html__( 'Knowledge Base ', 'bkb-kbtfw' ); // Set the title of Knowledgebase Tab.
 
 		$bkb_woo_tab_position = $bkb_data['bkb_auto_hide_tab'] ?? 100; // Set faq tab to the last position.
 
-		if ( $bkb_auto_hide_tab == 1 ) {
+		if ( $bkb_auto_hide_tab === 1 ) {
 
 				// Count no of KB for current product.
 				$kbftw_kb_post_ids = (int) count( get_post_meta( $product->get_id(), 'kbftw_kb_post_ids' ) );
 
-			if ( $kbftw_kb_post_ids == 0 ) {
+			if ( $kbftw_kb_post_ids === 0 ) {
 					return $tabs;
 			}
 		}
@@ -84,6 +83,6 @@ class ProductTabCb {
 		// allow shortcodes to function
 		$content = apply_filters( 'the_content', $tab['content'] );
 		$content = str_replace( ']]>', ']]&gt;', $content );
-		echo apply_filters( 'kbtfw_woocommerce_custom_product_tabs_content', $content, $tab );
+		echo apply_filters( 'kbtfw_woocommerce_custom_product_tabs_content', $content, $tab ); //phpcs:ignore
 	}
 }

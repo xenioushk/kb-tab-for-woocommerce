@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-04-09T15:02:33+00:00\n"
+"POT-Creation-Date: 2025-04-10T08:08:02+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: bkb-kbtfw\n"
@@ -39,79 +39,80 @@ msgstr ""
 msgid "https://bluewindlab.net"
 msgstr ""
 
-#: admin/class-kbtfw-addon-admin.php:155
-msgid "Hide Knowledge Base Tab?"
-msgstr ""
-
-#: admin/class-kbtfw-addon-admin.php:160
-#: admin/class-kbtfw-addon-admin.php:259
-#: admin/class-kbtfw-addon-admin.php:343
-msgid "Yes"
-msgstr ""
-
-#: admin/class-kbtfw-addon-admin.php:161
-#: admin/class-kbtfw-addon-admin.php:260
-#: admin/class-kbtfw-addon-admin.php:344
-msgid "No"
-msgstr ""
-
-#: admin/class-kbtfw-addon-admin.php:167
-msgid "Add Knowledgebase Items"
-msgstr ""
-
-#: admin/class-kbtfw-addon-admin.php:193
-msgid "Total <br />KBs"
-msgstr ""
-
-#: admin/class-kbtfw-addon-admin.php:194
-msgid "KB Tab <br />Status"
-msgstr ""
-
-#: admin/class-kbtfw-addon-admin.php:221
-msgid "Hidden"
-msgstr ""
-
-#: admin/class-kbtfw-addon-admin.php:221
-msgid "Visible"
-msgstr ""
-
-#: admin/class-kbtfw-addon-admin.php:256
-msgid "Hide KB Tab?"
-msgstr ""
-
-#: admin/class-kbtfw-addon-admin.php:258
-#: admin/class-kbtfw-addon-admin.php:342
-msgid "- No Change -"
-msgstr ""
-
-#: admin/class-kbtfw-addon-admin.php:340
-msgid "Hide FAQ Tab?"
-msgstr ""
-
-#: public/class-kbtfw-addon.php:217
+#: includes/Base/FrontendInlineJs.php:96
 msgid "Search!"
 msgstr ""
 
-#: public/class-kbtfw-addon.php:218
+#: includes/Base/FrontendInlineJs.php:97
 msgid " Item(s) Found !"
 msgstr ""
 
-#: public/class-kbtfw-addon.php:219
+#: includes/Base/FrontendInlineJs.php:98
 msgid "Nothing Found !"
 msgstr ""
 
-#: public/class-kbtfw-addon.php:220
+#: includes/Base/FrontendInlineJs.php:99
 msgid "Page"
 msgstr ""
 
-#: public/class-kbtfw-addon.php:221
+#: includes/Base/FrontendInlineJs.php:100
 msgid "Pages"
 msgstr ""
 
-#: public/class-kbtfw-addon.php:222
+#: includes/Base/FrontendInlineJs.php:101
 msgid "Total"
 msgstr ""
 
-#: public/class-kbtfw-addon.php:278
+#: includes/Callbacks/Actions/Admin/QuickEditCb.php:43
+msgid "Hide KB Tab?"
+msgstr ""
+
+#: includes/Callbacks/Actions/Admin/QuickEditCb.php:45
+msgid "- No Change -"
+msgstr ""
+
+#: includes/Callbacks/Actions/Admin/QuickEditCb.php:46
+#: includes/Cmb/KtfwcCmb.php:47
+msgid "Yes"
+msgstr ""
+
+#: includes/Callbacks/Actions/Admin/QuickEditCb.php:47
+#: includes/Cmb/KtfwcCmb.php:48
+msgid "No"
+msgstr ""
+
+#: includes/Callbacks/Filters/ProductTabCb.php:29
 msgid "Knowledge Base "
+msgstr ""
+
+#: includes/Cmb/KtfwcCmb.php:42
+msgid "Hide Knowledge Base Tab?"
+msgstr ""
+
+#: includes/Cmb/KtfwcCmb.php:54
+msgid "Add Knowledgebase Items"
+msgstr ""
+
+#: includes/Controllers/Filters/Admin/CustomColumns.php:29
+msgid "Total KBs"
+msgstr ""
+
+#: includes/Controllers/Filters/Admin/CustomColumns.php:30
+msgid "KB Tab"
+msgstr ""
+
+#: includes/Controllers/Filters/Admin/CustomColumns.php:58
+msgid "Hidden"
+msgstr ""
+
+#: includes/Controllers/Filters/Admin/CustomColumns.php:58
+msgid "Visible"
+msgstr ""
+
+#: includes/Controllers/PluginMeta/MetaInfo.php:34
+msgid "Options Panel"
+msgstr ""
+
+#: includes/Controllers/PluginMeta/MetaInfo.php:38
+msgid "Docs"
 msgstr ""

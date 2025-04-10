@@ -31,7 +31,6 @@ class Init {
 			'actions'    => self::get_action_classes(),
 			'filters'    => self::get_filter_classes(),
 			'shortcodes' => self::get_shortcode_classes(),
-			// 'notices'  => self::get_notices_classes(),
 		];
 
 		foreach ( $service_classes as $service_class ) {
@@ -83,8 +82,6 @@ class Init {
 	private static function get_base_classes() {
 		$classes = [
 			Base\Enqueue::class,
-			// Base\CustomTheme::class,
-			// Base\IncludePluginFiles::class,
 			Base\AdminEnqueue::class,
 			Base\FrontendInlineJs::class,
 			Base\PluginUpdate::class,
@@ -103,7 +100,6 @@ class Init {
 	private static function get_helper_classes() {
 		$classes = [
 			Helpers\PluginConstants::class,
-			// Helpers\RkbHelpers::class,
 		];
 		return $classes;
 	}
@@ -168,18 +164,6 @@ class Init {
 
 		$classes = [
 			Controllers\Shortcodes\AddonShortcodes::class,
-		];
-		return $classes;
-	}
-
-	/**
-	 * Get Notices classes.
-	 *
-	 * @return array
-	 */
-	private static function get_notices_classes() {
-		$classes = [
-			Controllers\Notices\PluginNoticesAjaxHandler::class,
 		];
 		return $classes;
 	}

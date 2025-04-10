@@ -55,7 +55,7 @@ class CustomColumns {
 
 				// FAQ Display Status In Text.
 
-				$bkb_woo_tab_hide_status_in_text = ( $bkb_woo_tab_hide_status == 1 ) ? __( 'Hidden', 'bkb-kbtfw' ) : __( 'Visible', 'bkb-kbtfw' );
+				$bkb_woo_tab_hide_status_in_text = ( $bkb_woo_tab_hide_status == 1 ) ? esc_html__( 'Hidden', 'bkb-kbtfw' ) : esc_html__( 'Visible', 'bkb-kbtfw' );
 
 				echo '<div id="bkb_woo_tab_hide_status-' . $post->ID . '" data-status_code="' . $bkb_woo_tab_hide_status . '" >' . $bkb_woo_tab_hide_status_in_text . '</div>';
 
