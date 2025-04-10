@@ -14,14 +14,6 @@ class BKB_kbtfw_Admin {
 
     private function __construct() {
 
-        // @Description: First we need to check if KB Plugin & WooCommerce is activated or not. If not then we display a message and return false.
-        // @Since: Version 1.0.5
-
-        if ( ! class_exists( 'BwlKbManager\\Init' ) || ! class_exists( 'WooCommerce' ) || BKBKBTFW_PARENT_PLUGIN_INSTALLED_VERSION < '1.0.5' ) {
-            add_action( 'admin_notices', [ $this, 'kbtfw_version_update_admin_notice' ] );
-            return false;
-        }
-
         // Start Plugin Admin Panel Code.
 
         $plugin               = BKB_kbtfw::get_instance();
@@ -30,10 +22,6 @@ class BKB_kbtfw_Admin {
         $post_types           = 'product';
 
         add_action( 'admin_init', [ $this, 'kbtfw_cmb_framework' ] );
-        add_action( 'admin_enqueue_scripts', [ $this, 'bkb_kbtfw_admin_enqueue_scripts' ] );
-
-        // add_filter( 'manage_' . $post_types . '_posts_columns', [ $this, 'kbtfw_custom_column_header' ] );
-        // add_action( 'manage_' . $post_types . '_posts_custom_column', [ $this, 'kbtfw_display_custom_column' ], 10, 1 );
 
         // Quick & Bulk Edit Section.
 
@@ -54,46 +42,7 @@ class BKB_kbtfw_Admin {
         return self::$instance;
     }
 
-    public function kbtfw_version_update_admin_notice() {
-        echo '<div class="updated"><p>You need to download & install both '
-            . '<b><a href="http://downloads.wordpress.org/plugin/woocommerce.zip" target="_blank">WooCommerce Plugin</a></b> && '
-            . '<b><a href="https://1.envato.market/bkbm-wp" target="_blank">BWL Knowledge Base Manager Plugin</a></b> '
-            . 'to use <b>KB Tab For WooCommerce - Knowledgebase Addon</b>. </p></div>';
-    }
 
-    public function bkb_kbtfw_admin_enqueue_scripts( $hook ) {
-
-        // We only load this JS script in product add/edit page.
-
-        $current_post_type = '';
-
-        if ( isset( $_GET['post_type'] ) && $_GET['post_type'] == 'product' ) {
-
-            $current_post_type = 'product';
-        } elseif ( isset( $_GET['post'] ) && get_post_type( $_GET['post'] ) === 'product' ) {
-
-            $current_post_type = 'product';
-        } else {
-
-            $current_post_type = '';
-        }
-
-        if ( $current_post_type == 'product' ) {
-            wp_enqueue_script( $this->plugin_slug . '-admin', BKBKBTFW_PLUGIN_DIR . 'assets/scripts/admin.js', [ 'jquery' ], BKB_kbtfw::VERSION, true );
-
-            wp_localize_script(
-                $this->plugin_slug . '-admin',
-                'BkbmKbtfwAdminData',
-                [
-                    'product_id'   => BKBKBTFW_ADDON_CC_ID,
-                    'installation' => get_option( BKBKBTFW_ADDON_INSTALLATION_TAG ),
-                ]
-            );
-        } else {
-
-            return;
-        }
-    }
 
     function kbtfw_cmb_framework() {
 
