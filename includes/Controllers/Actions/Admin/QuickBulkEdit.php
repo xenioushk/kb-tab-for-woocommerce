@@ -1,16 +1,16 @@
 <?php
-namespace BKBRKB\Controllers\Actions\Admin;
+namespace KTFWC\Controllers\Actions\Admin;
 
 use Xenioushk\BwlPluginApi\Api\Actions\ActionsApi;
-use BKBRKB\Callbacks\Actions\Admin\QuickEditCb;
-use BKBRKB\Callbacks\Actions\Admin\QuickEditSaveCb;
-use BKBRKB\Callbacks\Actions\Admin\BulkEditSaveCb;
+use KTFWC\Callbacks\Actions\Admin\QuickEditCb;
+use KTFWC\Callbacks\Actions\Admin\QuickEditSaveCb;
+use KTFWC\Callbacks\Actions\Admin\BulkEditSaveCb;
 
 /**
  * Class for registering the atfc tab.
  *
  * @since: 1.1.5
- * @package BKBRKB
+ * @package KTFWC
  */
 class QuickBulkEdit {
 
@@ -40,12 +40,12 @@ class QuickBulkEdit {
                 'args_count' => 2,
             ],
             [
-                'tag'        => 'save_post_bwl_kb',
+                'tag'        => 'save_post_product',
                 'callback'   => [ $quick_edit_save_cb, 'save_data' ],
                 'args_count' => 2,
             ],
             [
-                'tag'      => 'wp_ajax_manage_wp_posts_using_bulk_edit_rkb',
+                'tag'      => 'wp_ajax_manage_wp_posts_using_bulk_edit_kbtfw',
                 'callback' => [ $bulk_edit_cb, 'save_data' ],
             ],
 

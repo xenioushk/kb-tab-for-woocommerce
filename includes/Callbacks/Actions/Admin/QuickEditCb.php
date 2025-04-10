@@ -1,10 +1,10 @@
 <?php
-namespace BKBRKB\Callbacks\Actions\Admin;
+namespace KTFWC\Callbacks\Actions\Admin;
 
 /**
  * Class for registering the atfc tab callabck.
  *
- * @package BKBRKB
+ * @package KTFWC
  * @since: 1.0.0
  * @author: Mahbub Alam Khan
  */
@@ -27,19 +27,24 @@ class QuickEditCb {
 			case $post_type:
 				switch ( $column_name ) {
 
-					case 'bkb_rkb_status':
-						$bkb_rkb_status = ( get_post_meta( $post->ID, 'bkb_rkb_status', true ) == '' ) ? '' : get_post_meta( $post->ID, 'bkb_rkb_status', true );
+					case 'bkb_woo_tab_hide_status':
+						$bkb_woo_tab_hide_status_val = get_post_meta( $post->ID, 'bkb_woo_tab_hide_status', true );
+
+						$bkb_woo_tab_hide_status = ( $bkb_woo_tab_hide_status_val == '' ) ? '' : $bkb_woo_tab_hide_status_val;
+
 						?>
 
-<fieldset class="inline-edit-col-right">
+
+<fieldset class="inline-edit-col-left">
     <div class="inline-edit-col">
     <div class="inline-edit-group">
-        <label class="inline-edit-status alignleft">
-        <span class="title"><?php _e( 'Restrict Access', 'bkb_rkb' ); ?></span>
-        <select name="bkb_rkb_status">
-            <option value=""><?php _e( '- No Change -', 'bkb_rkb' ); ?></option>
-            <option value="1"><?php _e( 'Yes', 'bkb_rkb' ); ?></option>
-            <option value="0"><?php _e( 'No', 'bkb_rkb' ); ?></option>
+        <label class="alignleft">
+
+        <span class="checkbox-title"><?php _e( 'Hide KB Tab?', 'bkb-kbtfw' ); ?></span>
+        <select name="bkb_woo_tab_hide_status">
+            <option value="3"><?php _e( '- No Change -', 'bkb-kbtfw' ); ?></option>
+            <option value="1"><?php _e( 'Yes', 'bkb-kbtfw' ); ?></option>
+            <option value="2"><?php _e( 'No', 'bkb-kbtfw' ); ?></option>
         </select>
         </label>
 
@@ -49,10 +54,10 @@ class QuickEditCb {
 
 
 						<?php
-				        break;
+	                    break;
 				}
 
-		        break;
+                break;
 		}
 	}
 }
