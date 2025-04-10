@@ -24,12 +24,12 @@ class Init {
 		$services = [];
 
 		$service_classes = [
-			'helpers' => self::get_helper_classes(),
-			'base'    => self::get_base_classes(),
+			'helpers'    => self::get_helper_classes(),
+			'base'       => self::get_base_classes(),
 			// 'meta'    => self::get_meta_classes(),
 			// 'actions' => self::get_action_classes(),
-			// 'filters' => self::get_filter_classes(),
-			// 'shortcodes' => self::get_shortcode_classes(),
+			'filters'    => self::get_filter_classes(),
+			'shortcodes' => self::get_shortcode_classes(),
 			// 'notices'  => self::get_notices_classes(),
 		];
 
@@ -142,9 +142,9 @@ class Init {
 	private static function get_filter_classes() {
 
 		$classes = [
-			Controllers\Filters\RKBFilters::class,
-			Controllers\Filters\Admin\RKBFilters::class,
-			Controllers\Filters\Admin\CustomColumns::class,
+			Controllers\Filters\KTFWCFilters::class,
+			// Controllers\Filters\Admin\RKBFilters::class,
+			// Controllers\Filters\Admin\CustomColumns::class,
 		];
 		return $classes;
 	}
