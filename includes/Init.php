@@ -26,7 +26,8 @@ class Init {
 		$service_classes = [
 			'helpers'    => self::get_helper_classes(),
 			'base'       => self::get_base_classes(),
-			// 'meta'    => self::get_meta_classes(),
+			'meta'       => self::get_meta_classes(),
+			'cmb'        => self::get_cmb_classes(),
 			'actions'    => self::get_action_classes(),
 			'filters'    => self::get_filter_classes(),
 			'shortcodes' => self::get_shortcode_classes(),
@@ -119,6 +120,18 @@ class Init {
 		return $classes;
 	}
 
+	/**
+	 * Get Custom Meta Box classes.
+	 *
+	 * @return array
+	 */
+	private static function get_cmb_classes() {
+
+		$classes = [
+			Cmb\KtfwcCmb::class,
+		];
+		return $classes;
+	}
 
 	/**
 	 * Get Action classes.

@@ -1,11 +1,11 @@
 <?php
-namespace BKBRKB\Controllers\PluginMeta;
+namespace KTFWC\Controllers\PluginMeta;
 
 /**
  * Class displays options panel, addons, documentation links below the plugin information.
  *
  * @since: 1.1.0
- * @package BKBRKB
+ * @package KTFWC
  */
 class MetaInfo {
 
@@ -26,17 +26,17 @@ class MetaInfo {
      */
 	public function get_meta_links( $links, $file ) {
 
-		if ( strpos( $file, BKBRKB_PLUGIN_ROOT_FILE ) !== false && is_plugin_active( $file ) ) {
+		if ( strpos( $file, KTFWC_PLUGIN_ROOT_FILE ) !== false && is_plugin_active( $file ) ) {
 
 			// nt = 1 // new tab.
 			$additional_links = [
 				[
-					'title' => esc_html__( 'Options Panel', 'bkb_rkb' ),
-					'url'   => admin_url( 'edit.php?post_type=bwl_kb&page=edit.php%3Fpost_type%3Dbwl_kb_options_panel#bkb_rkb_settings' ), //phpcs:ignore
+					'title' => esc_html__( 'Options Panel', 'bkb-kbtfw' ),
+					'url'   => admin_url( 'edit.php?post_type=bwl_kb&page=edit.php%3Fpost_type%3Dbwl_kb_options_panel#woo_settings' ), //phpcs:ignore
 				],
 				[
-					'title' => esc_html__( 'Docs', 'bkb_rkb' ),
-					'url'   => 'https://xenioushk.github.io/docs-plugins-addon/bkbm-addon/rkb/index.html',
+					'title' => esc_html__( 'Docs', 'bkb-kbtfw' ),
+					'url'   => 'https://xenioushk.github.io/docs-plugins-addon/bkbm-addon/ktwfc/index.html',
 					'nt'    => 1,
 				],
 
