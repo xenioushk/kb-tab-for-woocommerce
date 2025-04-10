@@ -1,10 +1,10 @@
 <?php
-namespace BKBRKB\Controllers\Filters\Admin;
+namespace KTFWC\Controllers\Filters\Admin;
 
 /**
  * Custom Product Columns
  *
- * @package BKBRKB
+ * @package KTFWC
  */
 class CustomColumns {
 
@@ -13,20 +13,21 @@ class CustomColumns {
      */
 	public function register() {
 		if ( is_admin() ) {
-			add_filter( 'manage_bwl_kb_posts_columns', [ $this,'columns_header' ] );
-			add_action( 'manage_bwl_kb_posts_custom_column', [ $this,'columns_content' ], 10, 1 );
+			add_filter( 'manage_product_posts_columns', [ $this,'columns_header' ] );
+			add_action( 'manage_product_posts_custom_column', [ $this,'columns_content' ], 10, 1 );
 		}
 	}
 
     /**
-     * Add custom columns to the bwl_kb post type.
+     * Add custom columns to the product post type.
      *
      * @param array $columns The columns.
      *
      * @return array
      */
 	public function columns_header( $columns ) {
-		$columns['bkb_rkb_status'] = esc_html__( 'Access', 'bkb_rkb' );
+		$columns['kbftw_kb_post_ids']       = esc_html__( 'Total KBs', 'bkb-kbtfw' );
+		$columns['bkb_woo_tab_hide_status'] = esc_html__( 'KB Tab', 'bkb-kbtfw' );
 
 		return $columns;
 	}
@@ -37,33 +38,28 @@ class CustomColumns {
      * @param string $column The column.
      */
 	public function columns_content( $column ) {
+		// Add A Custom Image Size For Admin Panel.
+
 		global $post;
 
 		switch ( $column ) {
 
-			case 'bkb_rkb_status':
-				$bkb_rkb_status = get_post_meta( $post->ID, 'bkb_rkb_status', true ) ?? 0;
+			case 'kbftw_kb_post_ids':
+				$kbftw_kb_post_ids = (int) count( apply_filters( 'filter_kbtfwc_content_data', get_post_meta( $post->ID, 'kbftw_kb_post_ids' ) ) );
+				echo '<div id="kbftw_kb_post_ids-' . $post->ID . '" >&nbsp;' . $kbftw_kb_post_ids . '</div>';
+
+                break;
+
+			case 'bkb_woo_tab_hide_status':
+				$bkb_woo_tab_hide_status = ( get_post_meta( $post->ID, 'bkb_woo_tab_hide_status', true ) == '' ) ? '' : get_post_meta( $post->ID, 'bkb_woo_tab_hide_status', true );
 
 				// FAQ Display Status In Text.
 
-				$status_icon = ( $bkb_rkb_status == 1 ) ? '<span class="dashicons dashicons-lock"></span>' : '<span class="dashicons dashicons-unlock"></span>';
+				$bkb_woo_tab_hide_status_in_text = ( $bkb_woo_tab_hide_status == 1 ) ? __( 'Hidden', 'bkb-kbtfw' ) : __( 'Visible', 'bkb-kbtfw' );
 
-				$access_text = __( 'All types of user can view this KB content', 'bkb_rkb' );
+				echo '<div id="bkb_woo_tab_hide_status-' . $post->ID . '" data-status_code="' . $bkb_woo_tab_hide_status . '" >' . $bkb_woo_tab_hide_status_in_text . '</div>';
 
-				if ( $bkb_rkb_status == 1 ) {
-					$alllowed_roles = get_post_meta( $post->ID, 'bkb_rkb_user_roles', true );
-
-					if ( ! is_array( $alllowed_roles ) ) {
-						$access_text = __( 'only administrator can access this KB', 'bkb_rkb' );
-					} else {
-						$bkb_roles   = implode( ', ', $alllowed_roles );
-						$access_text = __( 'only', 'bkb_rkb' ) . ' ' . $bkb_roles . ' ' . __( 'can access this KB', 'bkb_rkb' );
-					}
-				}
-
-				echo '<div id="bkb_rkb_status-' . $post->ID . '" data-status_code="' . $bkb_rkb_status . '" title="' . ucwords( $access_text ) . '">' . $status_icon . '</div>';
-
-				break;
+                break;
 		}
 	}
 }

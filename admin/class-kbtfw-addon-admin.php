@@ -32,8 +32,8 @@ class BKB_kbtfw_Admin {
         add_action( 'admin_init', [ $this, 'kbtfw_cmb_framework' ] );
         add_action( 'admin_enqueue_scripts', [ $this, 'bkb_kbtfw_admin_enqueue_scripts' ] );
 
-        add_filter( 'manage_' . $post_types . '_posts_columns', [ $this, 'kbtfw_custom_column_header' ] );
-        add_action( 'manage_' . $post_types . '_posts_custom_column', [ $this, 'kbtfw_display_custom_column' ], 10, 1 );
+        // add_filter( 'manage_' . $post_types . '_posts_columns', [ $this, 'kbtfw_custom_column_header' ] );
+        // add_action( 'manage_' . $post_types . '_posts_custom_column', [ $this, 'kbtfw_display_custom_column' ], 10, 1 );
 
         // Quick & Bulk Edit Section.
 
@@ -166,44 +166,6 @@ class BKB_kbtfw_Admin {
         // A new meta box will be created in KB add/edit page.
         if ( class_exists( 'BwlKbManager\\Init' ) ) {
             new CmbMetaBoxApi( $custom_fields );
-        }
-    }
-
-    function kbtfw_custom_column_header( $columns ) {
-
-        return array_merge(
-            $columns,
-            [
-                'kbftw_kb_post_ids'       => __( 'Total <br />KBs', 'bkb-kbtfw' ),
-                'bkb_woo_tab_hide_status' => __( 'KB Tab <br />Status', 'bkb-kbtfw' ),
-            ]
-        );
-    }
-
-    function kbtfw_display_custom_column( $column ) {
-
-        // Add A Custom Image Size For Admin Panel.
-
-        global $post;
-
-        switch ( $column ) {
-
-			case 'kbftw_kb_post_ids':
-				$kbftw_kb_post_ids = (int) count( apply_filters( 'filter_kbtfwc_content_data', get_post_meta( $post->ID, 'kbftw_kb_post_ids' ) ) );
-				echo '<div id="kbftw_kb_post_ids-' . $post->ID . '" >&nbsp;' . $kbftw_kb_post_ids . '</div>';
-
-                break;
-
-			case 'bkb_woo_tab_hide_status':
-				$bkb_woo_tab_hide_status = ( get_post_meta( $post->ID, 'bkb_woo_tab_hide_status', true ) == '' ) ? '' : get_post_meta( $post->ID, 'bkb_woo_tab_hide_status', true );
-
-				// FAQ Display Status In Text.
-
-				$bkb_woo_tab_hide_status_in_text = ( $bkb_woo_tab_hide_status == 1 ) ? __( 'Hidden', 'bkb-kbtfw' ) : __( 'Visible', 'bkb-kbtfw' );
-
-				echo '<div id="bkb_woo_tab_hide_status-' . $post->ID . '" data-status_code="' . $bkb_woo_tab_hide_status . '" >' . $bkb_woo_tab_hide_status_in_text . '</div>';
-
-                break;
         }
     }
 

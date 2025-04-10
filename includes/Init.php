@@ -144,7 +144,7 @@ class Init {
 		$classes = [
 			Controllers\Filters\KTFWCFilters::class,
 			// Controllers\Filters\Admin\RKBFilters::class,
-			// Controllers\Filters\Admin\CustomColumns::class,
+			Controllers\Filters\Admin\CustomColumns::class,
 		];
 		return $classes;
 	}
