@@ -63,8 +63,18 @@ class DependencyManager {
 	 * Set the plugin dependency constants.
 	 */
 	private static function set_dependency_constants() {
-		define( 'KTFWC_MIN_BKBM_VERSION', '1.5.5' );
+		define( 'KTFWC_MIN_BKBM_VERSION', '1.5.7' );
 		define( 'KTFWC_MIN_PHP_VERSION', '7.0' );
+	}
+
+	/**
+	 * Check the minimum version requirement status.
+	 *
+	 * @return int
+	 */
+	public static function check_minimum_version_requirement_status() {
+		$plugin_data = \get_plugin_data( WP_PLUGIN_DIR . '/bwl-kb-manager/bwl-knowledge-base-manager.php' );
+		return ( version_compare( $plugin_data['Version'], KTFWC_MIN_BKBM_VERSION, '>=' ) );
 	}
 
 	/**
@@ -95,6 +105,25 @@ class DependencyManager {
 
 		return $purchase_status;
 
+	}
+
+	/**
+     * Function to handle the minimum version of parent plugin notice.
+     *
+     * @return void
+     */
+	public static function notice_min_version_main_plugin() {
+
+		$message = sprintf(
+				// translators: 1: Plugin name, 2: Addon title, 3: Current version, 4: Minimum required version
+            esc_html__( 'The %2$s requires a minimum version of %4$s. You are currently using version %3$s. Please update the %1$s plugin to the latest version.', 'bkb_vc' ),
+            self::$bkbm_url,
+            self::$addon_title,
+            BKBM_PLUGIN_VERSION,
+            KTFWC_MIN_BKBM_VERSION
+        );
+
+		printf( '<div class="notice notice-error"><p>⚠️ %1$s</p></div>', $message ); // phpcs:ignore
 	}
 
 	/**
