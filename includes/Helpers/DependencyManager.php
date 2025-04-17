@@ -73,8 +73,18 @@ class DependencyManager {
 	 * @return int
 	 */
 	public static function check_minimum_version_requirement_status() {
-		$plugin_data = \get_plugin_data( WP_PLUGIN_DIR . '/bwl-kb-manager/bwl-knowledge-base-manager.php' );
-		return ( version_compare( $plugin_data['Version'], KTFWC_MIN_BKBM_VERSION, '>=' ) );
+
+		// This is super important to check if the get_plugin_data function is already loaded or not.
+		if ( ! function_exists( 'get_plugin_data' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+		$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/bwl-kb-manager/bwl-knowledge-base-manager.php' );
+
+		if ( ! defined( 'BKBM_CURRENT_PLUGIN_VERSION' ) ) {
+			define( 'BKBM_CURRENT_PLUGIN_VERSION', $plugin_data['Version'] );
+		}
+
+		return ( version_compare( BKBM_CURRENT_PLUGIN_VERSION, KTFWC_MIN_BKBM_VERSION, '>=' ) );
 	}
 
 	/**
@@ -116,10 +126,10 @@ class DependencyManager {
 
 		$message = sprintf(
 				// translators: 1: Plugin name, 2: Addon title, 3: Current version, 4: Minimum required version
-            esc_html__( 'The %2$s requires a minimum version of %4$s. You are currently using version %3$s. Please update the %1$s plugin to the latest version.', 'bkb_vc' ),
+            esc_html__( 'The %2$s requires %1$s %4$s or higher. You are using %3$s', 'bkb-kbtfw' ),
             self::$bkbm_url,
             self::$addon_title,
-            BKBM_PLUGIN_VERSION,
+            BKBM_CURRENT_PLUGIN_VERSION,
             KTFWC_MIN_BKBM_VERSION
         );
 
@@ -135,7 +145,7 @@ class DependencyManager {
 
 		$message = sprintf(
 						// translators: 1: Plugin name, 2: Addon title
-            esc_html__( 'Please install and activate the %1$s plugin to use %2$s.', 'bkb_vc' ),
+            esc_html__( 'Please install and activate the %1$s plugin to use %2$s.', 'bkb-kbtfw' ),
             self::$bkbm_url,
             self::$addon_title
 		);
@@ -152,7 +162,7 @@ class DependencyManager {
 
 		$message = sprintf(
 						// translators: 1: Plugin name, 2: Addon title
-            esc_html__( 'Please install and activate the %1$s plugin to use %2$s.', 'bkb_vc' ),
+            esc_html__( 'Please install and activate the %1$s plugin to use %2$s.', 'bkb-kbtfw' ),
             self::$woocommerce_url,
             self::$addon_title
 		);
@@ -169,7 +179,7 @@ class DependencyManager {
 
 		$message = sprintf(
 						// translators: 1: Plugin activation link, 2: Addon title
-            esc_html__( 'Please Activate the %1$s to use the %2$s.', 'bkb_vc' ),
+            esc_html__( 'Please Activate the %1$s to use the %2$s.', 'bkb-kbtfw' ),
             self::$bkbm_license_url,
             self::$addon_title
 		);
