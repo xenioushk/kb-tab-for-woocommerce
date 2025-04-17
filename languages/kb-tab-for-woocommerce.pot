@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the KB Tab For WooCommerce - Knowledgebase Addon plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: KB Tab For WooCommerce - Knowledgebase Addon 1.1.4\n"
+"Project-Id-Version: KB Tab For WooCommerce - Knowledgebase Addon 2.0.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/kb-tab-for-woocommerce\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-04-10T08:08:02+00:00\n"
+"POT-Creation-Date: 2025-04-17T17:49:11+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: bkb-kbtfw\n"
@@ -72,24 +72,24 @@ msgid "- No Change -"
 msgstr ""
 
 #: includes/Callbacks/Actions/Admin/QuickEditCb.php:46
-#: includes/Cmb/KtfwcCmb.php:47
+#: includes/Cmb/KtfwcCmb.php:46
 msgid "Yes"
 msgstr ""
 
 #: includes/Callbacks/Actions/Admin/QuickEditCb.php:47
-#: includes/Cmb/KtfwcCmb.php:48
+#: includes/Cmb/KtfwcCmb.php:47
 msgid "No"
 msgstr ""
 
-#: includes/Callbacks/Filters/ProductTabCb.php:29
+#: includes/Callbacks/Filters/ProductTabCb.php:28
 msgid "Knowledge Base "
 msgstr ""
 
-#: includes/Cmb/KtfwcCmb.php:42
+#: includes/Cmb/KtfwcCmb.php:41
 msgid "Hide Knowledge Base Tab?"
 msgstr ""
 
-#: includes/Cmb/KtfwcCmb.php:54
+#: includes/Cmb/KtfwcCmb.php:53
 msgid "Add Knowledgebase Items"
 msgstr ""
 
@@ -115,4 +115,20 @@ msgstr ""
 
 #: includes/Controllers/PluginMeta/MetaInfo.php:38
 msgid "Docs"
+msgstr ""
+
+#. translators: 1: Plugin name, 2: Addon title, 3: Current version, 4: Minimum required version
+#: includes/Helpers/DependencyManager.php:129
+msgid "The %2$s requires %1$s %4$s or higher. You are using %3$s"
+msgstr ""
+
+#. translators: 1: Plugin name, 2: Addon title
+#: includes/Helpers/DependencyManager.php:148
+#: includes/Helpers/DependencyManager.php:165
+msgid "Please install and activate the %1$s plugin to use %2$s."
+msgstr ""
+
+#. translators: 1: Plugin activation link, 2: Addon title
+#: includes/Helpers/DependencyManager.php:182
+msgid "Please Activate the %1$s to use the %2$s."
 msgstr ""

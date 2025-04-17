@@ -1,6 +1,7 @@
 variables:
   BUILD_DIR: /home/gitlab-runner/builds/$CI_RUNNER_SHORT_TOKEN/0/bkbm-addon/kb-tab-for-woocommerce
   DEPLOY_DIR: bkbm/wp-content/plugins/kb-tab-for-woocommerce
+
 stages:
   - build
   - staging
@@ -10,24 +11,20 @@ stages:
 before_script:
   - sudo apt-get update
   - sudo apt-get install -y lftp curl npm php-cli unzip
-  - mkdir -p $HOME/bin
-  - curl -sS https://getcomposer.org/installer | php -- --install-dir=$HOME/bin --filename=composer
+  - mkdir -p "$HOME/bin"
+  - curl -sS https://getcomposer.org/installer | php -- --install-dir="$HOME/bin" --filename=composer
   - export PATH="$HOME/bin:$PATH"
+  - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+  - export NVM_DIR="$HOME/.nvm"
+  - source "$NVM_DIR/nvm.sh"
 
 build:
   stage: build
   image: node:lts
-  tags:
-    - ci
-    - devops
-  only:
-    - staging
-    - production
+  tags: [ci, devops]
+  only: [staging, production]
   script:
     - composer install --no-dev --optimize-autoloader
-    - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
-    - export NVM_DIR="$HOME/.nvm"
-    - source "$NVM_DIR/nvm.sh"
     - nvm install
     - nvm use
     - npm install
@@ -41,11 +38,8 @@ staging:
   stage: staging
   dependencies:
     - build
-  only:
-    - staging
-  tags:
-    - ci
-    - devops
+  only: [staging]
+  tags: [ci, devops]
   script:
     - pwd
     - echo "Updating plugin files.."
@@ -55,11 +49,8 @@ production:
   stage: production
   dependencies:
     - build
-  only:
-    - production
-  tags:
-    - ci
-    - devops
+  only: [production]
+  tags: [ci, devops]
   script:
     - pwd
     - echo "Updating plugin files.."
@@ -68,12 +59,8 @@ production:
 # Cleanup job added to remove unnecessary files after deployment
 cleanup:
   stage: cleanup # Stage after production
-  only:
-    - production
-    - staging
-  tags:
-    - ci
-    - devops
+  only: [staging, production]
+  tags: [ci, devops]
   script:
     - echo "Cleaning up temporary files and artifacts..."
     - rm -rf $BUILD_DIR/assets # Adjust this to your specific cleanup needs
