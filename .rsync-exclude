@@ -1,0 +1,7 @@
+.git/
+.gitignore
+.gitlab-ci.yml
+phpcs.xml
+tests/
+node_modules/
+.rsync-exclude

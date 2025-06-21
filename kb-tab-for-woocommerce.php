@@ -4,7 +4,7 @@
  * Plugin Name:    KB Tab For WooCommerce - Knowledgebase Addon
  * Plugin URI:       https://1.envato.market/bkbm-wp
  * Description:      KB tab for woocommerce Addon allows you to convert your knowledge base posts in to WooCommerce product Knowledgebase item with in a minute. You can add unlimited number of knowledge base post as product knowledgebase items and using drag drop feature sort them according to you're choice.
- * Version:           2.0.1
+ * Version:           2.1.0
  * Author:            Mahbub Alam Khan
  * Author URI:      https://bluewindlab.net
  * WP Requires at least: 6.0+
@@ -76,12 +76,6 @@ function init_ktfwc() {
         add_action( 'admin_notices', [ Helpers\DependencyManager::class, 'notice_missing_woocommerce_plugin' ] );
         return;
     }
-
-	// Check parent plugin activation status.
-	if ( ! ( Helpers\DependencyManager::get_product_activation_status() ) ) {
-		add_action( 'admin_notices', [ Helpers\DependencyManager::class, 'notice_missing_purchase_verification' ] );
-		return;
-	}
 
 	if ( class_exists( 'KTFWC\\Init' ) ) {
 

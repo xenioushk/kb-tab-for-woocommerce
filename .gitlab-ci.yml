@@ -1,18 +1,18 @@
 variables:
-  BUILD_DIR: /home/gitlab-runner/builds/$CI_RUNNER_SHORT_TOKEN/0/bkbm-addon/kb-tab-for-woocommerce
-  DEPLOY_DIR: bkbm/wp-content/plugins/kb-tab-for-woocommerce
+  BUILD_DIR: /home/gitlab-runner/builds/$CI_RUNNER_SHORT_TOKEN/0/plugin-addons/kb-tab-for-woocommerce # Adjusted
+  PLUGIN_DIR: bkbm/wp-content/plugins/kb-tab-for-woocommerce/ # Adjusted
+  SDEPLOY_DIR: /home/$SHOST_ID/public_html/bwl_staging/wpplugins/$PLUGIN_DIR # Adjusted
+  PDEPLOY_DIR: /home/$PHOST_ID/public_html/public_html/projects/wpplugin/$PLUGIN_DIR # Adjusted
 
 stages:
   - build
   - staging
   - production
-  - cleanup # Added cleanup stage
+  - cleanup
 
 before_script:
-  - sudo apt-get update
-  - sudo apt-get install -y lftp curl npm php-cli unzip
-  - mkdir -p "$HOME/bin"
-  - curl -sS https://getcomposer.org/installer | php -- --install-dir="$HOME/bin" --filename=composer
+  - echo "👨🏻‍💻 Getting ready!!"
+  - curl -sS https://getcomposer.org/installer | php -- --install-dir=$HOME/bin --filename=composer
   - export PATH="$HOME/bin:$PATH"
   - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
   - export NVM_DIR="$HOME/.nvm"
@@ -24,11 +24,12 @@ build:
   tags: [ci, devops]
   only: [staging, production]
   script:
+    - echo "⚙️ Building the app."
     - composer install --no-dev --optimize-autoloader
-    - nvm install
     - nvm use
     - npm install
     - npm run build
+    - npm run make-pot
   artifacts:
     paths:
       - $BUILD_DIR/assets
@@ -41,9 +42,8 @@ staging:
   only: [staging]
   tags: [ci, devops]
   script:
-    - pwd
-    - echo "Updating plugin files.."
-    - lftp -e "set ssl:verify-certificate no; open $FTP_SHOST; user $FTP_SUSERNAME $FTP_SPASSWORD; mirror -X .* -X .*/ --reverse --verbose --delete $BUILD_DIR /wpplugins/$DEPLOY_DIR; bye"
+    - echo "🚀 Deploying to STAGING."
+    - rsync -avz --delete --exclude-from='.rsync-exclude' -e "ssh -p ${SSH_PORT:-65002}" $BUILD_DIR/ $SSH_SUSERNAME@$SSH_SHOST:$SDEPLOY_DIR
 
 production:
   stage: production
@@ -52,17 +52,13 @@ production:
   only: [production]
   tags: [ci, devops]
   script:
-    - pwd
-    - echo "Updating plugin files.."
-    - lftp -e "set ssl:verify-certificate no; open $FTP_HOST; user $FTP_PUSERNAME $FTP_PPASSWORD; mirror -X .* -X .*/ --reverse --verbose --delete $BUILD_DIR /wpplugin/$DEPLOY_DIR; bye"
+    - echo "🚀 Deploying to PRODUCTION."
+    - rsync -avz --delete --exclude-from='.rsync-exclude' -e "ssh -p ${SSH_PORT:-65002}" $BUILD_DIR/ $SSH_PUSERNAME@$SSH_PHOST:$PDEPLOY_DIR
 
-# Cleanup job added to remove unnecessary files after deployment
 cleanup:
-  stage: cleanup # Stage after production
+  stage: cleanup
   only: [staging, production]
   tags: [ci, devops]
   script:
-    - echo "Cleaning up temporary files and artifacts..."
-    - rm -rf $BUILD_DIR/assets # Adjust this to your specific cleanup needs
-    - rm -rf $BUILD_DIR/vendor # Adjust this to your specific cleanup needs
-    - echo "Cleanup complete."
+    - echo "🧹Cleaning up."
+    - rm -rf $BUILD_DIR
